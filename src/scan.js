@@ -15,26 +15,108 @@ const IGNORED_COOKIES = new Set( [ COOKIE_NAME ] );
 /**
  * @param {object} config  Parsed scanner config.
  * @param {object} [options]
- * @param {string} [options.endpoint]  CDP endpoint (e.g. Cloudflare Browser Run). Omit for local Chromium.
+ * @param {string} [options.endpoint]     CDP endpoint (e.g. Cloudflare Browser Run). Omit for local Chromium.
+ * @param {number} [options.concurrency]  Max sites scanned in parallel (default 3).
+ * @param {number} [options.perHost]      Max parallel scans sharing a hostname (default 2).
  */
 export async function runScan( config, options = {} ) {
 	const browser = options.endpoint
 		? await chromium.connectOverCDP( options.endpoint )
 		: await chromium.launch( { headless: true } );
 
+	const concurrency = Math.max( 1, Number( options.concurrency ) || 3 );
+	const perHost = Math.max( 1, Number( options.perHost ) || 2 );
+
 	try {
+		const results = await mapWithLimit(
+			config.sites || [],
+			{ concurrency, perHost, hostOf: siteHost },
+			( site ) => scanSite( browser, site, config )
+		);
+
 		const sites = [];
-		for ( const site of config.sites ) {
-			sites.push( await scanSite( browser, site, config ) );
-		}
+		const errors = [];
+		results.forEach( ( result, i ) => {
+			if ( result && result.__error ) {
+				errors.push( { site: config.sites[ i ], message: String( result.__error && result.__error.message || result.__error ) } );
+			} else if ( result ) {
+				sites.push( result );
+			}
+		} );
+
 		return {
 			// generated_at is excluded from diffs; kept for provenance only.
 			generated_at: Math.floor( Date.now() / 1000 ),
 			sites: sites.sort( ( a, b ) => a.host.localeCompare( b.host ) ),
+			errors,
 		};
 	} finally {
 		await browser.close();
 	}
+}
+
+function siteHost( site ) {
+	try {
+		return new URL( site.url ).hostname;
+	} catch ( e ) {
+		return '';
+	}
+}
+
+/**
+ * Runs `worker` over `items` with a global concurrency cap and a per-host cap.
+ * A failing item is isolated: its slot holds `{ __error }` and the run continues.
+ * Results preserve input order. Exported for testing without a browser.
+ *
+ * @param {any[]} items
+ * @param {{ concurrency: number, perHost: number, hostOf: (item:any)=>string }} limits
+ * @param {(item:any, index:number)=>Promise<any>} worker
+ * @returns {Promise<any[]>}
+ */
+export function mapWithLimit( items, { concurrency, perHost, hostOf }, worker ) {
+	const results = new Array( items.length );
+	const queue = items.map( ( item, index ) => ( { item, index } ) );
+	const hostActive = new Map();
+	let active = 0;
+
+	return new Promise( ( resolve ) => {
+		const pump = () => {
+			if ( queue.length === 0 && active === 0 ) {
+				resolve( results );
+				return;
+			}
+
+			for ( let qi = 0; qi < queue.length && active < concurrency; ) {
+				const { item, index } = queue[ qi ];
+				const host = hostOf( item );
+				if ( ( hostActive.get( host ) || 0 ) >= perHost ) {
+					qi++;
+					continue;
+				}
+
+				queue.splice( qi, 1 );
+				active++;
+				hostActive.set( host, ( hostActive.get( host ) || 0 ) + 1 );
+
+				Promise.resolve()
+					.then( () => worker( item, index ) )
+					.then( ( value ) => {
+						results[ index ] = value;
+					} )
+					.catch( ( error ) => {
+						results[ index ] = { __error: error };
+					} )
+					.finally( () => {
+						active--;
+						hostActive.set( host, hostActive.get( host ) - 1 );
+						pump();
+					} );
+				// queue shifted; do not advance qi.
+			}
+		};
+
+		pump();
+	} );
 }
 
 async function scanSite( browser, site, config ) {
@@ -46,6 +128,7 @@ async function scanSite( browser, site, config ) {
 	const policyVersion = site.policy_version || 1;
 
 	const states = [];
+	const sourcesByState = [];
 	for ( const state of consentStates() ) {
 		const context = await browser.newContext();
 
@@ -79,6 +162,7 @@ async function scanSite( browser, site, config ) {
 		}
 
 		states.push( { state: state.id, ...normalizeState( collected, firstPartyDomain ) } );
+		sourcesByState.push( { state: state.id, sources: collected.sources || {} } );
 		await context.close();
 	}
 
@@ -87,7 +171,7 @@ async function scanSite( browser, site, config ) {
 		url: baseUrl,
 		blog_id: blogId,
 		states: states.sort( ( a, b ) => a.state.localeCompare( b.state ) ),
-		observations: deriveObservations( states ),
+		observations: deriveObservations( states, sourcesByState ),
 	};
 }
 
@@ -135,17 +219,29 @@ function normalizeState( collected, firstPartyDomain ) {
 
 /**
  * Builds a flat, import-ready observation list from all states.
+ *
+ * @param {object[]} states
+ * @param {Array<{state: string, sources: object}>} [sourcesByState]  Per-state observation-key -> source paths.
  */
-function deriveObservations( states ) {
+export function deriveObservations( states, sourcesByState = [] ) {
+	const sourcesById = new Map( sourcesByState.map( ( s ) => [ s.state, s.sources || {} ] ) );
 	const map = new Map();
 
 	const add = ( key, observation, stateId ) => {
 		if ( ! map.has( key ) ) {
-			map.set( key, { ...observation, triggered_by: [] } );
+			map.set( key, { ...observation, triggered_by: [], source_urls: [] } );
 		}
 		const existing = map.get( key );
 		if ( ! existing.triggered_by.includes( stateId ) ) {
 			existing.triggered_by.push( stateId );
+		}
+		const srcs = ( sourcesById.get( stateId ) || {} )[ key ];
+		if ( srcs ) {
+			for ( const url of srcs ) {
+				if ( ! existing.source_urls.includes( url ) ) {
+					existing.source_urls.push( url );
+				}
+			}
 		}
 	};
 
@@ -182,6 +278,7 @@ function deriveObservations( states ) {
 
 	for ( const observation of map.values() ) {
 		observation.triggered_by.sort();
+		observation.source_urls.sort();
 	}
 
 	return Array.from( map.values() ).sort(

@@ -44,6 +44,7 @@ export async function collect( page, context, { firstPartyDomain, paths, baseUrl
 	const requests = [];
 	const redirects = [];
 	const setCookies = [];
+	let currentPath = paths && paths.length ? String( paths[ 0 ] ) : '/';
 
 	page.on( 'request', ( request ) => {
 		let host = '';
@@ -60,6 +61,7 @@ export async function collect( page, context, { firstPartyDomain, paths, baseUrl
 			resourceType: request.resourceType(),
 			party,
 			beacon: isBeacon( request ),
+			path: currentPath,
 		} );
 	} );
 
@@ -73,19 +75,57 @@ export async function collect( page, context, { firstPartyDomain, paths, baseUrl
 		}
 	} );
 
+	// First path where each cumulative cookie / storage key appears — the basis
+	// for per-URL attribution (which page a tracker actually loads on).
+	const cookieFirstSeen = new Map();
+	const localFirstSeen = new Map();
+	const sessionFirstSeen = new Map();
+	const idbFirstSeen = new Map();
+
+	let lastCookies = [];
+	let lastStorage = { documentCookie: [], localStorage: [], sessionStorage: [], indexedDB: [], scripts: [], iframes: [] };
+
 	// Resolve paths relative to the site base so subdirectory multisites work:
 	// new URL( '/', 'https://host/sub/' ) would resolve to the domain root and
 	// scan the wrong site. Treat a leading-slash path as relative to the base.
 	const base = baseUrl.endsWith( '/' ) ? baseUrl : baseUrl + '/';
 	for ( const path of paths ) {
+		currentPath = String( path );
 		const target = path.startsWith( 'http' )
 			? path
 			: new URL( String( path ).replace( /^\/+/, '' ), base ).toString();
 		await page.goto( target, { waitUntil: 'networkidle', timeout: 30000 } ).catch( () => {} );
+
+		// Snapshot after each path; the delta attributes new items to this path.
+		lastCookies = await context.cookies();
+		lastStorage = await page.evaluate( readStorage );
+
+		for ( const c of lastCookies ) {
+			const key = `${ c.name }|${ c.domain }`;
+			if ( ! cookieFirstSeen.has( key ) ) {
+				cookieFirstSeen.set( key, currentPath );
+			}
+		}
+		for ( const k of lastStorage.localStorage ) {
+			if ( ! localFirstSeen.has( k ) ) {
+				localFirstSeen.set( k, currentPath );
+			}
+		}
+		for ( const k of lastStorage.sessionStorage ) {
+			if ( ! sessionFirstSeen.has( k ) ) {
+				sessionFirstSeen.set( k, currentPath );
+			}
+		}
+		for ( const k of lastStorage.indexedDB ) {
+			if ( ! idbFirstSeen.has( k ) ) {
+				idbFirstSeen.set( k, currentPath );
+			}
+		}
 	}
 
-	const cookies = await context.cookies();
-	const storage = await page.evaluate( readStorage );
+	const cookies = lastCookies;
+	const storage = lastStorage;
+	const sources = buildSources( { requests, cookieFirstSeen, localFirstSeen, sessionFirstSeen, idbFirstSeen } );
 
 	return {
 		cookies: cookies.map( ( c ) => ( {
@@ -107,7 +147,58 @@ export async function collect( page, context, { firstPartyDomain, paths, baseUrl
 		requests,
 		redirects,
 		setCookies,
+		sources,
 	};
+}
+
+/**
+ * Maps observation keys to the sorted list of paths that produced them. Keys
+ * match scan.js deriveObservations() so attribution merges cleanly.
+ */
+function buildSources( { requests, cookieFirstSeen, localFirstSeen, sessionFirstSeen, idbFirstSeen } ) {
+	const sources = {};
+	const add = ( key, path ) => {
+		if ( ! path ) {
+			return;
+		}
+		( sources[ key ] ||= new Set() ).add( path );
+	};
+
+	for ( const r of requests ) {
+		if ( r.party === 'third' ) {
+			add( `script|${ r.host }`, r.path );
+		}
+		if ( r.beacon ) {
+			add( `pixel|${ stripQuery( r.url ) }`, r.path );
+		}
+	}
+	for ( const [ key, path ] of cookieFirstSeen ) {
+		add( `cookie|${ key }`, path );
+	}
+	for ( const [ key, path ] of localFirstSeen ) {
+		add( `localstorage|${ key }`, path );
+	}
+	for ( const [ key, path ] of sessionFirstSeen ) {
+		add( `sessionstorage|${ key }`, path );
+	}
+	for ( const [ key, path ] of idbFirstSeen ) {
+		add( `indexeddb|${ key }`, path );
+	}
+
+	const out = {};
+	for ( const key of Object.keys( sources ) ) {
+		out[ key ] = Array.from( sources[ key ] ).sort();
+	}
+	return out;
+}
+
+function stripQuery( url ) {
+	try {
+		const u = new URL( url );
+		return u.origin + u.pathname;
+	} catch ( e ) {
+		return url;
+	}
 }
 
 /* Runs in the page context. */
