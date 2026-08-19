@@ -1,10 +1,85 @@
 {
-	"generated_at": 1787157093,
+	"generated_at": 1787160650,
 	"sites": [
 		{
 			"blog_id": 31,
 			"host": "plugins.local",
 			"observations": [
+				{
+					"domain": ".upload.wikimedia.org",
+					"http_only": true,
+					"name": "WMF-Uniq",
+					"party": "third",
+					"path": "/",
+					"retention": "persistent",
+					"same_site": "None",
+					"secure": true,
+					"storage_type": "cookie",
+					"triggered_by": [
+						"accept-all",
+						"before-choice",
+						"only-analytics",
+						"only-marketing",
+						"only-preferences",
+						"reject-all"
+					]
+				},
+				{
+					"domain": "secure.gravatar.com",
+					"name": "secure.gravatar.com",
+					"party": "third",
+					"storage_type": "script",
+					"triggered_by": [
+						"accept-all",
+						"before-choice",
+						"only-analytics",
+						"only-marketing",
+						"only-preferences",
+						"reject-all"
+					]
+				},
+				{
+					"domain": "upload.wikimedia.org",
+					"name": "upload.wikimedia.org",
+					"party": "third",
+					"storage_type": "script",
+					"triggered_by": [
+						"accept-all",
+						"before-choice",
+						"only-analytics",
+						"only-marketing",
+						"only-preferences",
+						"reject-all"
+					]
+				},
+				{
+					"domain": "wpthemetestdata.files.wordpress.com",
+					"name": "wpthemetestdata.files.wordpress.com",
+					"party": "third",
+					"storage_type": "script",
+					"triggered_by": [
+						"accept-all",
+						"before-choice",
+						"only-analytics",
+						"only-marketing",
+						"only-preferences",
+						"reject-all"
+					]
+				},
+				{
+					"domain": "wpthemetestdata.wordpress.com",
+					"name": "wpthemetestdata.wordpress.com",
+					"party": "third",
+					"storage_type": "script",
+					"triggered_by": [
+						"accept-all",
+						"before-choice",
+						"only-analytics",
+						"only-marketing",
+						"only-preferences",
+						"reject-all"
+					]
+				},
 				{
 					"name": "wpEmojiSettingsSupports",
 					"party": "first",
@@ -22,123 +97,273 @@
 			"states": [
 				{
 					"beacons": [],
-					"cookies": [],
+					"cookies": [
+						{
+							"domain": ".upload.wikimedia.org",
+							"http_only": true,
+							"name": "WMF-Uniq",
+							"party": "third",
+							"path": "/",
+							"same_site": "None",
+							"secure": true,
+							"session": false
+						}
+					],
 					"iframes": [],
 					"indexedDB": [],
 					"localStorage": [],
-					"redirects": [],
+					"redirects": [
+						{
+							"from": "https://wpthemetestdata.files.wordpress.com/2013/12/2014-slider-mobile-behavior.mov",
+							"to": "https://wpthemetestdata.wordpress.com/wp-content/uploads/2013/12/2014-slider-mobile-behavior.mov"
+						},
+						{
+							"from": "https://wpthemetestdata.files.wordpress.com/2013/12/2014-slider-mobile-behavior.mov",
+							"to": "https://wpthemetestdata.wordpress.com/wp-content/uploads/2013/12/2014-slider-mobile-behavior.mov"
+						}
+					],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite14/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "accept-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com",
+						"upload.wikimedia.org",
+						"wpthemetestdata.files.wordpress.com",
+						"wpthemetestdata.wordpress.com"
+					]
 				},
 				{
 					"beacons": [],
-					"cookies": [],
+					"cookies": [
+						{
+							"domain": ".upload.wikimedia.org",
+							"http_only": true,
+							"name": "WMF-Uniq",
+							"party": "third",
+							"path": "/",
+							"same_site": "None",
+							"secure": true,
+							"session": false
+						}
+					],
 					"iframes": [],
 					"indexedDB": [],
 					"localStorage": [],
-					"redirects": [],
+					"redirects": [
+						{
+							"from": "https://wpthemetestdata.files.wordpress.com/2013/12/2014-slider-mobile-behavior.mov",
+							"to": "https://wpthemetestdata.wordpress.com/wp-content/uploads/2013/12/2014-slider-mobile-behavior.mov"
+						},
+						{
+							"from": "https://wpthemetestdata.files.wordpress.com/2013/12/2014-slider-mobile-behavior.mov",
+							"to": "https://wpthemetestdata.wordpress.com/wp-content/uploads/2013/12/2014-slider-mobile-behavior.mov"
+						}
+					],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite14/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "before-choice",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com",
+						"upload.wikimedia.org",
+						"wpthemetestdata.files.wordpress.com",
+						"wpthemetestdata.wordpress.com"
+					]
 				},
 				{
 					"beacons": [],
-					"cookies": [],
+					"cookies": [
+						{
+							"domain": ".upload.wikimedia.org",
+							"http_only": true,
+							"name": "WMF-Uniq",
+							"party": "third",
+							"path": "/",
+							"same_site": "None",
+							"secure": true,
+							"session": false
+						}
+					],
 					"iframes": [],
 					"indexedDB": [],
 					"localStorage": [],
-					"redirects": [],
+					"redirects": [
+						{
+							"from": "https://wpthemetestdata.files.wordpress.com/2013/12/2014-slider-mobile-behavior.mov",
+							"to": "https://wpthemetestdata.wordpress.com/wp-content/uploads/2013/12/2014-slider-mobile-behavior.mov"
+						},
+						{
+							"from": "https://wpthemetestdata.files.wordpress.com/2013/12/2014-slider-mobile-behavior.mov",
+							"to": "https://wpthemetestdata.wordpress.com/wp-content/uploads/2013/12/2014-slider-mobile-behavior.mov"
+						}
+					],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite14/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-analytics",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com",
+						"upload.wikimedia.org",
+						"wpthemetestdata.files.wordpress.com",
+						"wpthemetestdata.wordpress.com"
+					]
 				},
 				{
 					"beacons": [],
-					"cookies": [],
+					"cookies": [
+						{
+							"domain": ".upload.wikimedia.org",
+							"http_only": true,
+							"name": "WMF-Uniq",
+							"party": "third",
+							"path": "/",
+							"same_site": "None",
+							"secure": true,
+							"session": false
+						}
+					],
 					"iframes": [],
 					"indexedDB": [],
 					"localStorage": [],
-					"redirects": [],
+					"redirects": [
+						{
+							"from": "https://wpthemetestdata.files.wordpress.com/2013/12/2014-slider-mobile-behavior.mov",
+							"to": "https://wpthemetestdata.wordpress.com/wp-content/uploads/2013/12/2014-slider-mobile-behavior.mov"
+						},
+						{
+							"from": "https://wpthemetestdata.files.wordpress.com/2013/12/2014-slider-mobile-behavior.mov",
+							"to": "https://wpthemetestdata.wordpress.com/wp-content/uploads/2013/12/2014-slider-mobile-behavior.mov"
+						}
+					],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite14/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-marketing",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com",
+						"upload.wikimedia.org",
+						"wpthemetestdata.files.wordpress.com",
+						"wpthemetestdata.wordpress.com"
+					]
 				},
 				{
 					"beacons": [],
-					"cookies": [],
+					"cookies": [
+						{
+							"domain": ".upload.wikimedia.org",
+							"http_only": true,
+							"name": "WMF-Uniq",
+							"party": "third",
+							"path": "/",
+							"same_site": "None",
+							"secure": true,
+							"session": false
+						}
+					],
 					"iframes": [],
 					"indexedDB": [],
 					"localStorage": [],
-					"redirects": [],
+					"redirects": [
+						{
+							"from": "https://wpthemetestdata.files.wordpress.com/2013/12/2014-slider-mobile-behavior.mov",
+							"to": "https://wpthemetestdata.wordpress.com/wp-content/uploads/2013/12/2014-slider-mobile-behavior.mov"
+						},
+						{
+							"from": "https://wpthemetestdata.files.wordpress.com/2013/12/2014-slider-mobile-behavior.mov",
+							"to": "https://wpthemetestdata.wordpress.com/wp-content/uploads/2013/12/2014-slider-mobile-behavior.mov"
+						}
+					],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite14/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-preferences",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com",
+						"upload.wikimedia.org",
+						"wpthemetestdata.files.wordpress.com",
+						"wpthemetestdata.wordpress.com"
+					]
 				},
 				{
 					"beacons": [],
-					"cookies": [],
+					"cookies": [
+						{
+							"domain": ".upload.wikimedia.org",
+							"http_only": true,
+							"name": "WMF-Uniq",
+							"party": "third",
+							"path": "/",
+							"same_site": "None",
+							"secure": true,
+							"session": false
+						}
+					],
 					"iframes": [],
 					"indexedDB": [],
 					"localStorage": [],
-					"redirects": [],
+					"redirects": [
+						{
+							"from": "https://wpthemetestdata.files.wordpress.com/2013/12/2014-slider-mobile-behavior.mov",
+							"to": "https://wpthemetestdata.wordpress.com/wp-content/uploads/2013/12/2014-slider-mobile-behavior.mov"
+						},
+						{
+							"from": "https://wpthemetestdata.files.wordpress.com/2013/12/2014-slider-mobile-behavior.mov",
+							"to": "https://wpthemetestdata.wordpress.com/wp-content/uploads/2013/12/2014-slider-mobile-behavior.mov"
+						}
+					],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite14/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
+						"http://plugins.local/subsite14/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "reject-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com",
+						"upload.wikimedia.org",
+						"wpthemetestdata.files.wordpress.com",
+						"wpthemetestdata.wordpress.com"
+					]
 				}
 			],
 			"url": "http://plugins.local/subsite14/"

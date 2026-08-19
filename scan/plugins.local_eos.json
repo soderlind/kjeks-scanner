@@ -1,14 +1,15 @@
 {
-	"generated_at": 1787157093,
+	"generated_at": 1787160650,
 	"sites": [
 		{
 			"blog_id": 3,
 			"host": "plugins.local",
 			"observations": [
 				{
-					"name": "wpEmojiSettingsSupports",
-					"party": "first",
-					"storage_type": "sessionstorage",
+					"domain": "fonts.googleapis.com",
+					"name": "fonts.googleapis.com",
+					"party": "third",
+					"storage_type": "script",
 					"triggered_by": [
 						"accept-all",
 						"before-choice",
@@ -28,17 +29,15 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/eos/wp-content/themes/dss-wp-eos/assets/javascripts/nojs-swap.js",
+						"http://plugins.local/eos/wp-includes/js/jquery/jquery-migrate.min.js",
+						"http://plugins.local/eos/wp-includes/js/jquery/jquery.min.js"
 					],
-					"sessionStorage": [
-						"wpEmojiSettingsSupports"
-					],
+					"sessionStorage": [],
 					"state": "accept-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"fonts.googleapis.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -48,17 +47,15 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/eos/wp-content/themes/dss-wp-eos/assets/javascripts/nojs-swap.js",
+						"http://plugins.local/eos/wp-includes/js/jquery/jquery-migrate.min.js",
+						"http://plugins.local/eos/wp-includes/js/jquery/jquery.min.js"
 					],
-					"sessionStorage": [
-						"wpEmojiSettingsSupports"
-					],
+					"sessionStorage": [],
 					"state": "before-choice",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"fonts.googleapis.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -68,17 +65,15 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/eos/wp-content/themes/dss-wp-eos/assets/javascripts/nojs-swap.js",
+						"http://plugins.local/eos/wp-includes/js/jquery/jquery-migrate.min.js",
+						"http://plugins.local/eos/wp-includes/js/jquery/jquery.min.js"
 					],
-					"sessionStorage": [
-						"wpEmojiSettingsSupports"
-					],
+					"sessionStorage": [],
 					"state": "only-analytics",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"fonts.googleapis.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -88,17 +83,15 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/eos/wp-content/themes/dss-wp-eos/assets/javascripts/nojs-swap.js",
+						"http://plugins.local/eos/wp-includes/js/jquery/jquery-migrate.min.js",
+						"http://plugins.local/eos/wp-includes/js/jquery/jquery.min.js"
 					],
-					"sessionStorage": [
-						"wpEmojiSettingsSupports"
-					],
+					"sessionStorage": [],
 					"state": "only-marketing",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"fonts.googleapis.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -108,17 +101,15 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/eos/wp-content/themes/dss-wp-eos/assets/javascripts/nojs-swap.js",
+						"http://plugins.local/eos/wp-includes/js/jquery/jquery-migrate.min.js",
+						"http://plugins.local/eos/wp-includes/js/jquery/jquery.min.js"
 					],
-					"sessionStorage": [
-						"wpEmojiSettingsSupports"
-					],
+					"sessionStorage": [],
 					"state": "only-preferences",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"fonts.googleapis.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -128,17 +119,15 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/eos/wp-content/themes/dss-wp-eos/assets/javascripts/nojs-swap.js",
+						"http://plugins.local/eos/wp-includes/js/jquery/jquery-migrate.min.js",
+						"http://plugins.local/eos/wp-includes/js/jquery/jquery.min.js"
 					],
-					"sessionStorage": [
-						"wpEmojiSettingsSupports"
-					],
+					"sessionStorage": [],
 					"state": "reject-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"fonts.googleapis.com"
+					]
 				}
 			],
 			"url": "http://plugins.local/eos/"

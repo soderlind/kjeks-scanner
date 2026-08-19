@@ -73,8 +73,14 @@ export async function collect( page, context, { firstPartyDomain, paths, baseUrl
 		}
 	} );
 
+	// Resolve paths relative to the site base so subdirectory multisites work:
+	// new URL( '/', 'https://host/sub/' ) would resolve to the domain root and
+	// scan the wrong site. Treat a leading-slash path as relative to the base.
+	const base = baseUrl.endsWith( '/' ) ? baseUrl : baseUrl + '/';
 	for ( const path of paths ) {
-		const target = path.startsWith( 'http' ) ? path : new URL( path, baseUrl ).toString();
+		const target = path.startsWith( 'http' )
+			? path
+			: new URL( String( path ).replace( /^\/+/, '' ), base ).toString();
 		await page.goto( target, { waitUntil: 'networkidle', timeout: 30000 } ).catch( () => {} );
 	}
 

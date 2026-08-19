@@ -1,5 +1,5 @@
 {
-	"generated_at": 1787157093,
+	"generated_at": 1787160650,
 	"sites": [
 		{
 			"blog_id": 32,
@@ -23,16 +23,27 @@
 				{
 					"beacons": [],
 					"cookies": [],
-					"iframes": [],
+					"iframes": [
+						"nullblank"
+					],
 					"indexedDB": [],
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/scripts-theme.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/utils.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/vendor-theme.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/js/gravityforms.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/js/jquery.json.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/a11y.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/dom-ready.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/jquery/jquery-migrate.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/jquery/jquery.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
@@ -43,16 +54,27 @@
 				{
 					"beacons": [],
 					"cookies": [],
-					"iframes": [],
+					"iframes": [
+						"nullblank"
+					],
 					"indexedDB": [],
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/scripts-theme.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/utils.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/vendor-theme.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/js/gravityforms.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/js/jquery.json.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/a11y.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/dom-ready.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/jquery/jquery-migrate.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/jquery/jquery.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
@@ -63,16 +85,27 @@
 				{
 					"beacons": [],
 					"cookies": [],
-					"iframes": [],
+					"iframes": [
+						"nullblank"
+					],
 					"indexedDB": [],
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/scripts-theme.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/utils.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/vendor-theme.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/js/gravityforms.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/js/jquery.json.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/a11y.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/dom-ready.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/jquery/jquery-migrate.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/jquery/jquery.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
@@ -83,16 +116,27 @@
 				{
 					"beacons": [],
 					"cookies": [],
-					"iframes": [],
+					"iframes": [
+						"nullblank"
+					],
 					"indexedDB": [],
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/scripts-theme.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/utils.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/vendor-theme.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/js/gravityforms.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/js/jquery.json.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/a11y.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/dom-ready.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/jquery/jquery-migrate.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/jquery/jquery.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
@@ -103,16 +147,27 @@
 				{
 					"beacons": [],
 					"cookies": [],
-					"iframes": [],
+					"iframes": [
+						"nullblank"
+					],
 					"indexedDB": [],
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/scripts-theme.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/utils.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/vendor-theme.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/js/gravityforms.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/js/jquery.json.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/a11y.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/dom-ready.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/jquery/jquery-migrate.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/jquery/jquery.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
@@ -123,16 +178,27 @@
 				{
 					"beacons": [],
 					"cookies": [],
-					"iframes": [],
+					"iframes": [
+						"nullblank"
+					],
 					"indexedDB": [],
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/scripts-theme.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/utils.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/assets/js/dist/vendor-theme.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/js/gravityforms.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/gravityforms/js/jquery.json.min.js",
+						"http://plugins.local/subsite15/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/a11y.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/dom-ready.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/jquery/jquery-migrate.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/jquery/jquery.min.js",
+						"http://plugins.local/subsite15/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"

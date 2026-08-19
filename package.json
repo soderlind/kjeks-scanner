@@ -1,6 +1,6 @@
 {
 	"name": "kjeks-scanner",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Standalone Playwright discovery scanner for the Kjeks cookie-consent plugin. Runs separately from the WordPress runtime.",
 	"license": "GPL-2.0-or-later",
 	"homepage": "https://github.com/soderlind/kjeks-scanner",

@@ -1,10 +1,24 @@
 {
-	"generated_at": 1787157093,
+	"generated_at": 1787160650,
 	"sites": [
 		{
 			"blog_id": 36,
 			"host": "plugins.local",
 			"observations": [
+				{
+					"domain": "dio.local",
+					"name": "dio.local",
+					"party": "third",
+					"storage_type": "script",
+					"triggered_by": [
+						"accept-all",
+						"before-choice",
+						"only-analytics",
+						"only-marketing",
+						"only-preferences",
+						"reject-all"
+					]
+				},
 				{
 					"name": "wpEmojiSettingsSupports",
 					"party": "first",
@@ -28,17 +42,18 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite19/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite19/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite19/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite19/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "accept-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"dio.local"
+					]
 				},
 				{
 					"beacons": [],
@@ -48,17 +63,18 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite19/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite19/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite19/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite19/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "before-choice",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"dio.local"
+					]
 				},
 				{
 					"beacons": [],
@@ -68,17 +84,18 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite19/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite19/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite19/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite19/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-analytics",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"dio.local"
+					]
 				},
 				{
 					"beacons": [],
@@ -88,17 +105,18 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite19/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite19/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite19/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite19/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-marketing",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"dio.local"
+					]
 				},
 				{
 					"beacons": [],
@@ -108,17 +126,18 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite19/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite19/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite19/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite19/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-preferences",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"dio.local"
+					]
 				},
 				{
 					"beacons": [],
@@ -128,17 +147,18 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
-						"http://plugins.local/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/wp-includes/js/dist/hooks.min.js",
-						"http://plugins.local/wp-includes/js/dist/i18n.min.js",
-						"http://plugins.local/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite19/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite19/wp-includes/js/dist/hooks.min.js",
+						"http://plugins.local/subsite19/wp-includes/js/dist/i18n.min.js",
+						"http://plugins.local/subsite19/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "reject-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"dio.local"
+					]
 				}
 			],
 			"url": "http://plugins.local/subsite19/"
