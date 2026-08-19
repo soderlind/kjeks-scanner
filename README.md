@@ -4,6 +4,11 @@ A standalone Playwright scanner that discovers cookies and similar technologies
 across a WordPress Multisite, in each consent state. It runs **separately from
 the WordPress runtime** — nothing here is loaded by the plugin.
 
+Part of the **kjeks family**. It integrates with the
+[Kjeks plugin](https://github.com/soderlind/kjeks) over REST only
+(`scan-config` + `import`); see the
+[kjeks ecosystem overview](https://github.com/soderlind/kjeks/blob/main/docs/architecture.md#9-ecosystem-the-kjeks-family).
+
 > Discovery is observational. It records what a real browser encountered; it
 > **cannot prove the absence** of tracking, and results vary by geo/IP. Imported
 > observations are always **unreviewed** until an administrator classifies them.
