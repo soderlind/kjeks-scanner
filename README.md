@@ -13,12 +13,11 @@ the WordPress runtime** — nothing here is loaded by the plugin.
 The scanner drives a version-pinned, real headless Chromium via Playwright's
 CDP-backed API. Only CDP exposes HttpOnly cookies and full network events, and
 only a real browser executes third-party code the way a visitor's browser does.
-See `../docs/adr/0005-scanner-uses-real-chromium.md`.
+See [docs/adr/0005-scanner-uses-real-chromium.md](docs/adr/0005-scanner-uses-real-chromium.md).
 
 ## Install
 
 ```bash
-cd scanner
 npm ci
 npx playwright install --with-deps chromium
 ```
@@ -27,14 +26,14 @@ npx playwright install --with-deps chromium
 
 ```bash
 # From a config file (recommended for multisite):
-node src/cli.js --config config.json --out ../scan
+node src/cli.js --config config.json --out scan
 
 # Or a single URL:
-node src/cli.js --url https://example.com --blog-id 1 --out ../scan
+node src/cli.js --url https://example.com --blog-id 1 --out scan
 
 # Fetch the site list from WordPress over REST (recommended for CI):
 KJEKS_USER=admin KJEKS_APP_PASSWORD='xxxx xxxx xxxx xxxx' \
-  node src/cli.js --config-url "https://network.example.com/wp-json/kjeks/v1/scan-config" --out ../scan
+  node src/cli.js --config-url "https://network.example.com/wp-json/kjeks/v1/scan-config" --out scan
 
 # Against Cloudflare Browser Run instead of local Chromium (opt-in):
 node src/cli.js --config config.json --endpoint "wss://…/browser-run/…"
@@ -82,7 +81,7 @@ CI can flag it for review. Commit `scan/<host>.json` as the baseline.
 
 ```bash
 KJEKS_USER=admin KJEKS_APP_PASSWORD='xxxx xxxx xxxx xxxx' \
-  node src/import.js --site https://network.example.com ../scan/*.json
+  node src/import.js --site https://network.example.com scan/*.json
 ```
 
 Uses a WordPress application password (HTTP Basic) against
