@@ -12,8 +12,17 @@
  * --config-url fetches the site list from WordPress (auth: KJEKS_USER +
  * KJEKS_APP_PASSWORD env). --overlay merges repo-side paths/scenarios by blog_id.
  *
+ * Options:
+ *   --concurrency <n>  Sites scanned in parallel (default 3).
+ *   --per-host <n>     Parallel scans sharing a hostname (default 2).
+ *   --full             Scan the server selection as-is; skip re-scanning pages
+ *                      that previously produced a tracker.
+ *   --import [<url>]   After scanning, POST observations to the Kjeks import
+ *                      endpoint (base from the value, --site, or --config-url).
+ *
  * Writes one deterministic JSON file per site to <out>/<host>[_<path>].json and prints a
- * per-subsite diff against any previous file of the same name.
+ * per-subsite diff against any previous file of the same name. Exits non-zero when a
+ * subsite changed, a site errored, or an import failed.
  */
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
@@ -21,15 +30,24 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { runScan } from './scan.js';
 import { diffScans } from './diff.js';
+import { priorTrackerPaths, mergePaths } from './targeting.js';
+import { importSites } from './import.js';
 
 async function main() {
 	const args = parseArgs( process.argv.slice( 2 ) );
-	const config = await loadConfig( args );
 	const outDir = args.out || 'scan';
 
 	await mkdir( outDir, { recursive: true } );
 
-	const result = await runScan( config, { endpoint: args.endpoint } );
+	// Targeted re-scan: always revisit pages that previously produced a tracker,
+	// on top of the server-selected paths. --full scans the selection as-is.
+	const config = await applyTargeting( await loadConfig( args ), outDir, Boolean( args.full ) );
+
+	const result = await runScan( config, {
+		endpoint: args.endpoint,
+		concurrency: args.concurrency ? Number( args.concurrency ) : undefined,
+		perHost: args[ 'per-host' ] ? Number( args[ 'per-host' ] ) : undefined,
+	} );
 	let anyChanged = false;
 
 	for ( const site of result.sites ) {
@@ -49,8 +67,40 @@ async function main() {
 		}
 	}
 
-	// Non-zero exit if any subsite changed, so CI can flag review.
-	process.exitCode = anyChanged ? 1 : 0;
+	// Surface isolated per-site scan failures (the run continued past them).
+	const scanErrors = result.errors || [];
+	for ( const failure of scanErrors ) {
+		process.stderr.write( `scan error (blog ${ failure.site && failure.site.blog_id }): ${ failure.message }\n` );
+	}
+
+	// Optional: import the reviewed-less observations in the same run.
+	let importFailures = 0;
+	if ( args.import ) {
+		const base = ( typeof args.import === 'string' ? args.import : null )
+			|| args.site
+			|| originOf( args[ 'config-url' ] );
+		if ( ! base ) {
+			throw new Error( '--import needs a base URL: use --import <url>, --site <url>, or --config-url.' );
+		}
+		const outcome = await importSites( base, result.sites, {
+			log: ( message, level ) => ( level === 'error' ? process.stderr : process.stdout ).write( message + '\n' ),
+		} );
+		importFailures = outcome.failures;
+	}
+
+	// Non-zero exit if any subsite changed, any site errored, or an import failed.
+	process.exitCode = ( anyChanged || scanErrors.length > 0 || importFailures > 0 ) ? 1 : 0;
+}
+
+function originOf( url ) {
+	if ( ! url || typeof url !== 'string' ) {
+		return null;
+	}
+	try {
+		return new URL( url ).origin;
+	} catch ( e ) {
+		return null;
+	}
 }
 
 // Distinct output name per site. Subdirectory multisites share one host, so the
@@ -85,6 +135,33 @@ function printDiff( host, diff ) {
 	for ( const o of diff.removed ) {
 		process.stdout.write( `  - ${ o.storage_type } ${ o.name }${ o.domain ? ' @ ' + o.domain : '' }\n` );
 	}
+}
+
+/**
+ * Adds paths that previously produced a tracker (read from each site's prior
+ * committed scan file) to the config paths, so known-tracker pages are always
+ * re-checked. Skipped when `full` is set.
+ */
+async function applyTargeting( config, outDir, full ) {
+	if ( full ) {
+		return config;
+	}
+
+	const sites = [];
+	for ( const site of config.sites || [] ) {
+		const file = join( outDir, `${ siteFileSlug( site ) }.json` );
+		let prior = null;
+		if ( existsSync( file ) ) {
+			try {
+				prior = JSON.parse( await readFile( file, 'utf8' ) );
+			} catch ( e ) {
+				prior = null;
+			}
+		}
+		sites.push( { ...site, paths: mergePaths( site.paths, priorTrackerPaths( prior ) ) } );
+	}
+
+	return { ...config, sites };
 }
 
 async function loadConfig( args ) {

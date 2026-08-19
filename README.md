@@ -42,7 +42,23 @@ KJEKS_USER=admin KJEKS_APP_PASSWORD='xxxx xxxx xxxx xxxx' \
 
 # Against Cloudflare Browser Run instead of local Chromium (opt-in):
 node src/cli.js --config config.json --endpoint "wss://…/browser-run/…"
+
+# Scan several sites in parallel (default 3; polite per-host cap 2):
+node src/cli.js --config-url "https://network.example.com/wp-json/kjeks/v1/scan-config" --concurrency 4 --out scan
+
+# Scan and import in one step:
+KJEKS_USER=admin KJEKS_APP_PASSWORD='xxxx xxxx xxxx xxxx' \
+  node src/cli.js --config-url "https://network.example.com/wp-json/kjeks/v1/scan-config" --import --out scan
 ```
+
+### Flags
+
+| Flag | Default | Purpose |
+| --- | --- | --- |
+| `--concurrency <n>` | 3 | Sites scanned in parallel. |
+| `--per-host <n>` | 2 | Parallel scans allowed to share one hostname (politeness for subdirectory multisites on one server). |
+| `--full` | off | Scan the server selection as-is; skip re-scanning pages that previously produced a tracker. |
+| `--import [<url>]` | off | After scanning, POST observations to the Kjeks import endpoint. Base URL from the value, `--site`, or `--config-url`. |
 
 Config shape: `{ "sites": [ { "url", "blog_id", "policy_version", "paths",
 "scenarios" } ] }`. Generate it with `wp kjeks scan-config` or fetch it over
@@ -61,9 +77,16 @@ Three interchangeable sources:
 3. **WP-CLI** — generate a static file locally:
 
    ```bash
-   wp kjeks scan-config --paths=/,/about,/contact > config.json
-   wp kjeks scan-config --output=config.json --include=1,3
+   wp kjeks scan-config > config.json                    # auto-selects URLs per site
+   wp kjeks scan-config --cap=15 --include=1,3            # cap the auto-selection
+   wp kjeks scan-config --paths=/,/about > config.json    # explicit paths (override)
    ```
+
+Omit `--paths` (CLI) or the `paths` query param (REST) and the plugin
+**auto-selects representative URLs per site** via `WP_Query` — the home page, the
+newest post and page, the posts archive, and pages whose content shows an embed /
+inline-script signal — capped by `--cap` (default 10). Passing explicit paths
+overrides the selection.
 
 The REST endpoint and `wp kjeks scan-config` share the same builder, so they
 produce identical output.
@@ -74,6 +97,12 @@ For every site the scanner opens a **fresh browser context** per consent state:
 (incl. HttpOnly/Secure/SameSite), `document.cookie`, localStorage,
 sessionStorage, IndexedDB names, third-party requests, redirects, scripts,
 iframes, and beacon/pixel requests.
+
+Each derived observation records **`source_urls`** — the page(s) it actually
+loaded on — so reviewers can see *where* a tracker fires. On the next run the
+scanner always re-scans those pages (on top of the server selection), so a page
+that once produced a tracker is never dropped by sampling. Use `--full` to scan
+the server selection as-is.
 
 ## Output and diff
 
@@ -94,14 +123,18 @@ Uses a WordPress application password (HTTP Basic) against
 password — pass it via environment / CI secrets. Locally you can instead use
 `wp kjeks import <file>`.
 
+To scan and import in a single command, pass `--import` to `src/cli.js` (see
+Flags above) instead of running `src/import.js` separately.
+
 ## Tests
 
 ```bash
-BASE_URL=http://plugins.local/ npx playwright test
+npm run test:unit                       # fast unit tests (node:test), no browser
+BASE_URL=http://plugins.local/ npx playwright test   # end-to-end, needs a site
 ```
 
-Confirms optional cookies, storage, and third-party requests do not occur
-before a consent choice, and that gated scripts stay inert.
+The end-to-end suite confirms optional cookies, storage, and third-party requests
+do not occur before a consent choice, and that gated scripts stay inert.
 
 ## Scheduled scanning
 
