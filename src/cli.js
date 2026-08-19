@@ -12,7 +12,7 @@
  * --config-url fetches the site list from WordPress (auth: KJEKS_USER +
  * KJEKS_APP_PASSWORD env). --overlay merges repo-side paths/scenarios by blog_id.
  *
- * Writes one deterministic JSON file per site to <out>/<host>.json and prints a
+ * Writes one deterministic JSON file per site to <out>/<host>[_<path>].json and prints a
  * per-subsite diff against any previous file of the same name.
  */
 
@@ -33,7 +33,8 @@ async function main() {
 	let anyChanged = false;
 
 	for ( const site of result.sites ) {
-		const file = join( outDir, `${ site.host }.json` );
+		const slug = siteFileSlug( site );
+		const file = join( outDir, `${ slug }.json` );
 		const previous = existsSync( file ) ? JSON.parse( await readFile( file, 'utf8' ) ) : null;
 
 		const [ siteDiff ] = diffScans( previous, { sites: [ site ] } );
@@ -41,7 +42,7 @@ async function main() {
 		const single = { generated_at: result.generated_at, sites: [ site ] };
 		await writeFile( file, stableStringify( single ) + '\n', 'utf8' );
 
-		printDiff( site.host, siteDiff );
+		printDiff( slug, siteDiff );
 
 		if ( siteDiff && ( siteDiff.added.length || siteDiff.changed.length || siteDiff.removed.length ) ) {
 			anyChanged = true;
@@ -50,6 +51,20 @@ async function main() {
 
 	// Non-zero exit if any subsite changed, so CI can flag review.
 	process.exitCode = anyChanged ? 1 : 0;
+}
+
+// Distinct output name per site. Subdirectory multisites share one host, so the
+// path is folded in; subdomain/domain-mapped sites keep their host-only name.
+function siteFileSlug( site ) {
+	let path = '';
+	try {
+		path = new URL( site.url ).pathname;
+	} catch ( e ) {
+		path = '';
+	}
+	const trimmed = path.replace( /^\/+|\/+$/g, '' );
+	const suffix = trimmed ? '_' + trimmed.replace( /[^a-z0-9._-]+/gi, '-' ) : '';
+	return `${ site.host }${ suffix }`;
 }
 
 function printDiff( host, diff ) {

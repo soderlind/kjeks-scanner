@@ -2,7 +2,7 @@
 	"generated_at": 1787157093,
 	"sites": [
 		{
-			"blog_id": 1,
+			"blog_id": 26,
 			"host": "plugins.local",
 			"observations": [
 				{
@@ -141,7 +141,7 @@
 					"thirdPartyHosts": []
 				}
 			],
-			"url": "http://plugins.local/"
+			"url": "http://plugins.local/subsite9/"
 		}
 	]
 }
