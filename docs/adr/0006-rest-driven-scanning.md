@@ -1,0 +1,18 @@
+# REST-driven scanning: server-selected URLs, attribution, and bounded concurrency
+
+The original scanner visited only the paths named in its config (defaulting to `/`), one site and one page at a time, and produced observations with no record of *which* page loaded them. That left three gaps: front-page-only coverage understated a site's real tracker surface, a large multisite scanned unusably slowly, and "where does this tracker actually fire?" was unanswerable. This refactor addresses all three while keeping the scanner a thin, standalone executor.
+
+## Decisions
+
+- **URL selection lives in the WordPress plugin, not the scanner.** `scan-config` auto-selects representative URLs per site via `WP_Query` — the home page, newest post and page, the posts archive, and pages whose content shows an embed/inline-script signal — deduped and capped (default 10). The scanner just visits what it is handed. The plugin runs in-context: no auth to read content, no dependency on the core sitemap (which is absent when `blog_public=0` or replaced by an SEO plugin), and it can sample deterministically. Explicit `paths` still override.
+- **Per-URL attribution.** Each observation records `source_urls` — the page(s) it loaded on — by stamping network requests with the current path and taking cumulative cookie/storage snapshots after each navigation. This gives reviewers a "where" and powers the targeted re-scan below. It is ignored by the diff (URLs rotating in and out must not create change noise); it is data on the observation, not a diff key.
+- **Bounded concurrency with a per-host ceiling.** A pool scans sites in parallel (`--concurrency`, default 3) but caps the number of parallel scans sharing one hostname (`--per-host`, default 2), so a subdirectory multisite whose subsites all share one server isn't hammered. Consent states and paths stay sequential *within* a site (firing six simultaneous hits at one URL would distort timing-sensitive results). A failing site is isolated — its slot records the error and the run continues, exiting non-zero for review.
+- **Targeted re-scan.** Every run re-scans pages that previously produced a tracker (read from the committed baseline's `source_urls`) on top of the server selection, so sampling can never silently drop a known-tracker page. `--full` opts out for an exhaustive pass against the server selection as-is.
+
+## Considered and rejected
+
+- **Client-side URL discovery** (the scanner crawls the sitemap or `/wp/v2/pages` itself) — rejected. It duplicates authentication, is fragile exactly when the core sitemap is disabled, and puts content-selection logic in the wrong tier. The plugin already owns `scan-config` and has direct, unauthenticated `WP_Query` access.
+- **Action Scheduler / any WP-side async for the scanning itself** — rejected. Action Scheduler runs in PHP and cannot drive Playwright; the browser work must run in Node. "Async" is therefore delivered as Node-side concurrency, not a WP queue. (WP-Cron still schedules the *run* via the GitHub Action; it does not perform it.)
+- **Moving the diff baseline into a server option** — rejected. The git-committed per-site JSON is the audit trail: PR-reviewable, diffable, zero infrastructure. The "pages that previously had trackers" set is derived from it, so no new server state is needed.
+
+Scanning remains observational: server-side selection and attribution improve coverage and traceability, but they cannot prove the absence of tracking, and results still vary by vantage point — so the deterministic-diff-and-human-review model from [0005](0005-scanner-uses-real-chromium.md) still applies.

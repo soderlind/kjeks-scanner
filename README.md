@@ -20,6 +20,28 @@ CDP-backed API. Only CDP exposes HttpOnly cookies and full network events, and
 only a real browser executes third-party code the way a visitor's browser does.
 See [docs/adr/0005-scanner-uses-real-chromium.md](docs/adr/0005-scanner-uses-real-chromium.md).
 
+## How it works end-to-end
+
+1. **Select** — the WordPress plugin's `scan-config` auto-picks representative URLs per
+   site (home, newest post/page, embed-bearing pages), capped. The scanner fetches this
+   over REST or from a file.
+2. **Scan** — for each site (in a bounded parallel pool with a per-host ceiling) the
+   scanner opens a fresh browser context per consent state, injects the consent record,
+   visits the URLs, and records cookies, storage, third-party requests, scripts, iframes,
+   and beacons.
+3. **Attribute** — every observation is tagged with `source_urls`, the page(s) it loaded on.
+4. **Diff** — results are written as one deterministic JSON file per site and diffed
+   against the committed baseline; any change exits non-zero for review.
+5. **Target** — the next run always re-scans pages that previously produced a tracker
+   (from `source_urls`), so coverage never silently regresses.
+6. **Import** — observations are POSTed to the plugin as *unreviewed* (in the same run
+   with `--import`, or separately) for an administrator to classify — optionally via the
+   [AI Reviewer](https://github.com/soderlind/kjeks-ai-reviewer).
+
+Design rationale is recorded under [docs/adr/](docs/adr): see
+[0006 — REST-driven scanning](docs/adr/0006-rest-driven-scanning.md) and
+[0005 — real Chromium](docs/adr/0005-scanner-uses-real-chromium.md).
+
 ## Install
 
 ```bash
