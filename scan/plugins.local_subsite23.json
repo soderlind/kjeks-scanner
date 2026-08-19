@@ -1,13 +1,50 @@
 {
-	"generated_at": 1787160650,
+	"generated_at": 1787180660,
 	"sites": [
 		{
 			"blog_id": 40,
 			"host": "plugins.local",
 			"observations": [
 				{
+					"domain": "fastly.picsum.photos",
+					"name": "fastly.picsum.photos",
+					"party": "third",
+					"source_urls": [
+						"/press-kit-and-resources/"
+					],
+					"storage_type": "script",
+					"triggered_by": [
+						"accept-all",
+						"before-choice",
+						"only-analytics",
+						"only-marketing",
+						"only-preferences",
+						"reject-all"
+					]
+				},
+				{
+					"domain": "picsum.photos",
+					"name": "picsum.photos",
+					"party": "third",
+					"source_urls": [
+						"/press-kit-and-resources/"
+					],
+					"storage_type": "script",
+					"triggered_by": [
+						"accept-all",
+						"before-choice",
+						"only-analytics",
+						"only-marketing",
+						"only-preferences",
+						"reject-all"
+					]
+				},
+				{
 					"name": "wpEmojiSettingsSupports",
 					"party": "first",
+					"source_urls": [
+						"/"
+					],
 					"storage_type": "sessionstorage",
 					"triggered_by": [
 						"accept-all",
@@ -26,7 +63,16 @@
 					"iframes": [],
 					"indexedDB": [],
 					"localStorage": [],
-					"redirects": [],
+					"redirects": [
+						{
+							"from": "https://picsum.photos/seed/mountains110/800/450",
+							"to": "https://fastly.picsum.photos/id/567/800/450.jpg"
+						},
+						{
+							"from": "https://picsum.photos/seed/aerial110/720/480",
+							"to": "https://fastly.picsum.photos/id/160/720/480.jpg"
+						}
+					],
 					"scripts": [
 						"http://plugins.local/subsite23/wp-content/plugins/kjeks/build/banner.js",
 						"http://plugins.local/subsite23/wp-includes/js/dist/hooks.min.js",
@@ -38,7 +84,10 @@
 						"wpEmojiSettingsSupports"
 					],
 					"state": "accept-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"fastly.picsum.photos",
+						"picsum.photos"
+					]
 				},
 				{
 					"beacons": [],
@@ -46,7 +95,16 @@
 					"iframes": [],
 					"indexedDB": [],
 					"localStorage": [],
-					"redirects": [],
+					"redirects": [
+						{
+							"from": "https://picsum.photos/seed/aerial110/720/480",
+							"to": "https://fastly.picsum.photos/id/160/720/480.jpg"
+						},
+						{
+							"from": "https://picsum.photos/seed/mountains110/800/450",
+							"to": "https://fastly.picsum.photos/id/567/800/450.jpg"
+						}
+					],
 					"scripts": [
 						"http://plugins.local/subsite23/wp-content/plugins/kjeks/build/banner.js",
 						"http://plugins.local/subsite23/wp-includes/js/dist/hooks.min.js",
@@ -58,7 +116,10 @@
 						"wpEmojiSettingsSupports"
 					],
 					"state": "before-choice",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"fastly.picsum.photos",
+						"picsum.photos"
+					]
 				},
 				{
 					"beacons": [],
@@ -66,7 +127,16 @@
 					"iframes": [],
 					"indexedDB": [],
 					"localStorage": [],
-					"redirects": [],
+					"redirects": [
+						{
+							"from": "https://picsum.photos/seed/mountains110/800/450",
+							"to": "https://fastly.picsum.photos/id/567/800/450.jpg"
+						},
+						{
+							"from": "https://picsum.photos/seed/aerial110/720/480",
+							"to": "https://fastly.picsum.photos/id/160/720/480.jpg"
+						}
+					],
 					"scripts": [
 						"http://plugins.local/subsite23/wp-content/plugins/kjeks/build/banner.js",
 						"http://plugins.local/subsite23/wp-includes/js/dist/hooks.min.js",
@@ -78,7 +148,10 @@
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-analytics",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"fastly.picsum.photos",
+						"picsum.photos"
+					]
 				},
 				{
 					"beacons": [],
@@ -86,7 +159,16 @@
 					"iframes": [],
 					"indexedDB": [],
 					"localStorage": [],
-					"redirects": [],
+					"redirects": [
+						{
+							"from": "https://picsum.photos/seed/mountains110/800/450",
+							"to": "https://fastly.picsum.photos/id/567/800/450.jpg"
+						},
+						{
+							"from": "https://picsum.photos/seed/aerial110/720/480",
+							"to": "https://fastly.picsum.photos/id/160/720/480.jpg"
+						}
+					],
 					"scripts": [
 						"http://plugins.local/subsite23/wp-content/plugins/kjeks/build/banner.js",
 						"http://plugins.local/subsite23/wp-includes/js/dist/hooks.min.js",
@@ -98,7 +180,10 @@
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-marketing",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"fastly.picsum.photos",
+						"picsum.photos"
+					]
 				},
 				{
 					"beacons": [],
@@ -106,7 +191,16 @@
 					"iframes": [],
 					"indexedDB": [],
 					"localStorage": [],
-					"redirects": [],
+					"redirects": [
+						{
+							"from": "https://picsum.photos/seed/aerial110/720/480",
+							"to": "https://fastly.picsum.photos/id/160/720/480.jpg"
+						},
+						{
+							"from": "https://picsum.photos/seed/mountains110/800/450",
+							"to": "https://fastly.picsum.photos/id/567/800/450.jpg"
+						}
+					],
 					"scripts": [
 						"http://plugins.local/subsite23/wp-content/plugins/kjeks/build/banner.js",
 						"http://plugins.local/subsite23/wp-includes/js/dist/hooks.min.js",
@@ -118,7 +212,10 @@
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-preferences",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"fastly.picsum.photos",
+						"picsum.photos"
+					]
 				},
 				{
 					"beacons": [],
@@ -126,7 +223,16 @@
 					"iframes": [],
 					"indexedDB": [],
 					"localStorage": [],
-					"redirects": [],
+					"redirects": [
+						{
+							"from": "https://picsum.photos/seed/mountains110/800/450",
+							"to": "https://fastly.picsum.photos/id/567/800/450.jpg"
+						},
+						{
+							"from": "https://picsum.photos/seed/aerial110/720/480",
+							"to": "https://fastly.picsum.photos/id/160/720/480.jpg"
+						}
+					],
 					"scripts": [
 						"http://plugins.local/subsite23/wp-content/plugins/kjeks/build/banner.js",
 						"http://plugins.local/subsite23/wp-includes/js/dist/hooks.min.js",
@@ -138,7 +244,10 @@
 						"wpEmojiSettingsSupports"
 					],
 					"state": "reject-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"fastly.picsum.photos",
+						"picsum.photos"
+					]
 				}
 			],
 			"url": "http://plugins.local/subsite23/"

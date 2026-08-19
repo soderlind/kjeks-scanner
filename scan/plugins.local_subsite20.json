@@ -1,13 +1,50 @@
 {
-	"generated_at": 1787160650,
+	"generated_at": 1787180660,
 	"sites": [
 		{
 			"blog_id": 37,
 			"host": "plugins.local",
 			"observations": [
 				{
+					"domain": "secure.gravatar.com",
+					"name": "secure.gravatar.com",
+					"party": "third",
+					"source_urls": [
+						"/2025/03/31/hello-world/"
+					],
+					"storage_type": "script",
+					"triggered_by": [
+						"accept-all",
+						"before-choice",
+						"only-analytics",
+						"only-marketing",
+						"only-preferences",
+						"reject-all"
+					]
+				},
+				{
+					"domain": "unpkg.com",
+					"name": "unpkg.com",
+					"party": "third",
+					"source_urls": [
+						"/talking-head/"
+					],
+					"storage_type": "script",
+					"triggered_by": [
+						"accept-all",
+						"before-choice",
+						"only-analytics",
+						"only-marketing",
+						"only-preferences",
+						"reject-all"
+					]
+				},
+				{
 					"name": "wpEmojiSettingsSupports",
 					"party": "first",
+					"source_urls": [
+						"/"
+					],
 					"storage_type": "sessionstorage",
 					"triggered_by": [
 						"accept-all",
@@ -29,16 +66,22 @@
 					"redirects": [],
 					"scripts": [
 						"http://plugins.local/subsite20/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite20/wp-content/plugins/talking-head/build/blocks/player/view.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/i18n.min.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/subsite20/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite20/wp-includes/js/wp-emoji-release.min.js",
+						"https://unpkg.com/@arraypress/waveform-player@1.5.2/dist/waveform-player.min.js",
+						"https://unpkg.com/@arraypress/waveform-playlist@1.1.0/dist/waveform-playlist.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "accept-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com",
+						"unpkg.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -49,16 +92,22 @@
 					"redirects": [],
 					"scripts": [
 						"http://plugins.local/subsite20/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite20/wp-content/plugins/talking-head/build/blocks/player/view.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/i18n.min.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/subsite20/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite20/wp-includes/js/wp-emoji-release.min.js",
+						"https://unpkg.com/@arraypress/waveform-player@1.5.2/dist/waveform-player.min.js",
+						"https://unpkg.com/@arraypress/waveform-playlist@1.1.0/dist/waveform-playlist.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "before-choice",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com",
+						"unpkg.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -69,16 +118,22 @@
 					"redirects": [],
 					"scripts": [
 						"http://plugins.local/subsite20/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite20/wp-content/plugins/talking-head/build/blocks/player/view.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/i18n.min.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/subsite20/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite20/wp-includes/js/wp-emoji-release.min.js",
+						"https://unpkg.com/@arraypress/waveform-player@1.5.2/dist/waveform-player.min.js",
+						"https://unpkg.com/@arraypress/waveform-playlist@1.1.0/dist/waveform-playlist.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-analytics",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com",
+						"unpkg.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -89,16 +144,22 @@
 					"redirects": [],
 					"scripts": [
 						"http://plugins.local/subsite20/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite20/wp-content/plugins/talking-head/build/blocks/player/view.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/i18n.min.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/subsite20/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite20/wp-includes/js/wp-emoji-release.min.js",
+						"https://unpkg.com/@arraypress/waveform-player@1.5.2/dist/waveform-player.min.js",
+						"https://unpkg.com/@arraypress/waveform-playlist@1.1.0/dist/waveform-playlist.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-marketing",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com",
+						"unpkg.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -109,16 +170,22 @@
 					"redirects": [],
 					"scripts": [
 						"http://plugins.local/subsite20/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite20/wp-content/plugins/talking-head/build/blocks/player/view.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/i18n.min.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/subsite20/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite20/wp-includes/js/wp-emoji-release.min.js",
+						"https://unpkg.com/@arraypress/waveform-player@1.5.2/dist/waveform-player.min.js",
+						"https://unpkg.com/@arraypress/waveform-playlist@1.1.0/dist/waveform-playlist.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-preferences",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com",
+						"unpkg.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -129,16 +196,22 @@
 					"redirects": [],
 					"scripts": [
 						"http://plugins.local/subsite20/wp-content/plugins/kjeks/build/banner.js",
+						"http://plugins.local/subsite20/wp-content/plugins/talking-head/build/blocks/player/view.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/i18n.min.js",
 						"http://plugins.local/subsite20/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/subsite20/wp-includes/js/wp-emoji-release.min.js"
+						"http://plugins.local/subsite20/wp-includes/js/wp-emoji-release.min.js",
+						"https://unpkg.com/@arraypress/waveform-player@1.5.2/dist/waveform-player.min.js",
+						"https://unpkg.com/@arraypress/waveform-playlist@1.1.0/dist/waveform-playlist.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "reject-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com",
+						"unpkg.com"
+					]
 				}
 			],
 			"url": "http://plugins.local/subsite20/"

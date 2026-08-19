@@ -1,5 +1,5 @@
 {
-	"generated_at": 1787160650,
+	"generated_at": 1787180660,
 	"sites": [
 		{
 			"blog_id": 38,
@@ -9,6 +9,11 @@
 					"domain": "fonts.googleapis.com",
 					"name": "fonts.googleapis.com",
 					"party": "third",
+					"source_urls": [
+						"/",
+						"/2026/04/05/qui-non-vitae-facilis-dolor/",
+						"/sample-page/"
+					],
 					"storage_type": "script",
 					"triggered_by": [
 						"accept-all",

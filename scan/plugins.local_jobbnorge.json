@@ -1,13 +1,33 @@
 {
-	"generated_at": 1787160650,
+	"generated_at": 1787180660,
 	"sites": [
 		{
 			"blog_id": 2,
 			"host": "plugins.local",
 			"observations": [
 				{
+					"domain": "secure.gravatar.com",
+					"name": "secure.gravatar.com",
+					"party": "third",
+					"source_urls": [
+						"/2024/01/09/hello-world/"
+					],
+					"storage_type": "script",
+					"triggered_by": [
+						"accept-all",
+						"before-choice",
+						"only-analytics",
+						"only-marketing",
+						"only-preferences",
+						"reject-all"
+					]
+				},
+				{
 					"name": "wpEmojiSettingsSupports",
 					"party": "first",
+					"source_urls": [
+						"/"
+					],
 					"storage_type": "sessionstorage",
 					"triggered_by": [
 						"accept-all",
@@ -28,6 +48,7 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
+						"http://plugins.local/jobbnorge/wp-content/plugins/jobbnorge-block/build/pagination.js",
 						"http://plugins.local/jobbnorge/wp-content/plugins/kjeks/build/banner.js",
 						"http://plugins.local/jobbnorge/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/jobbnorge/wp-includes/js/dist/i18n.min.js",
@@ -38,7 +59,9 @@
 						"wpEmojiSettingsSupports"
 					],
 					"state": "accept-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -48,6 +71,7 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
+						"http://plugins.local/jobbnorge/wp-content/plugins/jobbnorge-block/build/pagination.js",
 						"http://plugins.local/jobbnorge/wp-content/plugins/kjeks/build/banner.js",
 						"http://plugins.local/jobbnorge/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/jobbnorge/wp-includes/js/dist/i18n.min.js",
@@ -58,7 +82,9 @@
 						"wpEmojiSettingsSupports"
 					],
 					"state": "before-choice",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -68,6 +94,7 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
+						"http://plugins.local/jobbnorge/wp-content/plugins/jobbnorge-block/build/pagination.js",
 						"http://plugins.local/jobbnorge/wp-content/plugins/kjeks/build/banner.js",
 						"http://plugins.local/jobbnorge/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/jobbnorge/wp-includes/js/dist/i18n.min.js",
@@ -78,7 +105,9 @@
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-analytics",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -88,6 +117,7 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
+						"http://plugins.local/jobbnorge/wp-content/plugins/jobbnorge-block/build/pagination.js",
 						"http://plugins.local/jobbnorge/wp-content/plugins/kjeks/build/banner.js",
 						"http://plugins.local/jobbnorge/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/jobbnorge/wp-includes/js/dist/i18n.min.js",
@@ -98,7 +128,9 @@
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-marketing",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -108,6 +140,7 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
+						"http://plugins.local/jobbnorge/wp-content/plugins/jobbnorge-block/build/pagination.js",
 						"http://plugins.local/jobbnorge/wp-content/plugins/kjeks/build/banner.js",
 						"http://plugins.local/jobbnorge/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/jobbnorge/wp-includes/js/dist/i18n.min.js",
@@ -118,7 +151,9 @@
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-preferences",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -128,6 +163,7 @@
 					"localStorage": [],
 					"redirects": [],
 					"scripts": [
+						"http://plugins.local/jobbnorge/wp-content/plugins/jobbnorge-block/build/pagination.js",
 						"http://plugins.local/jobbnorge/wp-content/plugins/kjeks/build/banner.js",
 						"http://plugins.local/jobbnorge/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/jobbnorge/wp-includes/js/dist/i18n.min.js",
@@ -138,7 +174,9 @@
 						"wpEmojiSettingsSupports"
 					],
 					"state": "reject-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com"
+					]
 				}
 			],
 			"url": "http://plugins.local/jobbnorge/"

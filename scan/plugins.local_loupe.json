@@ -1,5 +1,5 @@
 {
-	"generated_at": 1787160650,
+	"generated_at": 1787180660,
 	"sites": [
 		{
 			"blog_id": 4,
@@ -8,6 +8,9 @@
 				{
 					"name": "wpEmojiSettingsSupports",
 					"party": "first",
+					"source_urls": [
+						"/"
+					],
 					"storage_type": "sessionstorage",
 					"triggered_by": [
 						"accept-all",

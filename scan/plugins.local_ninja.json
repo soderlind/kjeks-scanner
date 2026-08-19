@@ -1,13 +1,33 @@
 {
-	"generated_at": 1787160650,
+	"generated_at": 1787180660,
 	"sites": [
 		{
 			"blog_id": 17,
 			"host": "plugins.local",
 			"observations": [
 				{
+					"domain": "secure.gravatar.com",
+					"name": "secure.gravatar.com",
+					"party": "third",
+					"source_urls": [
+						"/2025/01/27/hei-verden/"
+					],
+					"storage_type": "script",
+					"triggered_by": [
+						"accept-all",
+						"before-choice",
+						"only-analytics",
+						"only-marketing",
+						"only-preferences",
+						"reject-all"
+					]
+				},
+				{
 					"name": "wpEmojiSettingsSupports",
 					"party": "first",
+					"source_urls": [
+						"/"
+					],
 					"storage_type": "sessionstorage",
 					"triggered_by": [
 						"accept-all",
@@ -29,22 +49,18 @@
 					"redirects": [],
 					"scripts": [
 						"http://plugins.local/ninja/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/ninja/wp-content/plugins/ninja-forms/assets/js/min/front-end-deps.js",
-						"http://plugins.local/ninja/wp-content/plugins/ninja-forms/assets/js/min/front-end.js",
-						"http://plugins.local/ninja/wp-includes/js/backbone.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/i18n.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/ninja/wp-includes/js/jquery/jquery-migrate.min.js",
-						"http://plugins.local/ninja/wp-includes/js/jquery/jquery.min.js",
-						"http://plugins.local/ninja/wp-includes/js/underscore.min.js",
 						"http://plugins.local/ninja/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "accept-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -55,22 +71,18 @@
 					"redirects": [],
 					"scripts": [
 						"http://plugins.local/ninja/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/ninja/wp-content/plugins/ninja-forms/assets/js/min/front-end-deps.js",
-						"http://plugins.local/ninja/wp-content/plugins/ninja-forms/assets/js/min/front-end.js",
-						"http://plugins.local/ninja/wp-includes/js/backbone.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/i18n.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/ninja/wp-includes/js/jquery/jquery-migrate.min.js",
-						"http://plugins.local/ninja/wp-includes/js/jquery/jquery.min.js",
-						"http://plugins.local/ninja/wp-includes/js/underscore.min.js",
 						"http://plugins.local/ninja/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "before-choice",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -81,22 +93,18 @@
 					"redirects": [],
 					"scripts": [
 						"http://plugins.local/ninja/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/ninja/wp-content/plugins/ninja-forms/assets/js/min/front-end-deps.js",
-						"http://plugins.local/ninja/wp-content/plugins/ninja-forms/assets/js/min/front-end.js",
-						"http://plugins.local/ninja/wp-includes/js/backbone.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/i18n.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/ninja/wp-includes/js/jquery/jquery-migrate.min.js",
-						"http://plugins.local/ninja/wp-includes/js/jquery/jquery.min.js",
-						"http://plugins.local/ninja/wp-includes/js/underscore.min.js",
 						"http://plugins.local/ninja/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-analytics",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -107,22 +115,18 @@
 					"redirects": [],
 					"scripts": [
 						"http://plugins.local/ninja/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/ninja/wp-content/plugins/ninja-forms/assets/js/min/front-end-deps.js",
-						"http://plugins.local/ninja/wp-content/plugins/ninja-forms/assets/js/min/front-end.js",
-						"http://plugins.local/ninja/wp-includes/js/backbone.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/i18n.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/ninja/wp-includes/js/jquery/jquery-migrate.min.js",
-						"http://plugins.local/ninja/wp-includes/js/jquery/jquery.min.js",
-						"http://plugins.local/ninja/wp-includes/js/underscore.min.js",
 						"http://plugins.local/ninja/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-marketing",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -133,22 +137,18 @@
 					"redirects": [],
 					"scripts": [
 						"http://plugins.local/ninja/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/ninja/wp-content/plugins/ninja-forms/assets/js/min/front-end-deps.js",
-						"http://plugins.local/ninja/wp-content/plugins/ninja-forms/assets/js/min/front-end.js",
-						"http://plugins.local/ninja/wp-includes/js/backbone.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/i18n.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/ninja/wp-includes/js/jquery/jquery-migrate.min.js",
-						"http://plugins.local/ninja/wp-includes/js/jquery/jquery.min.js",
-						"http://plugins.local/ninja/wp-includes/js/underscore.min.js",
 						"http://plugins.local/ninja/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "only-preferences",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com"
+					]
 				},
 				{
 					"beacons": [],
@@ -159,22 +159,18 @@
 					"redirects": [],
 					"scripts": [
 						"http://plugins.local/ninja/wp-content/plugins/kjeks/build/banner.js",
-						"http://plugins.local/ninja/wp-content/plugins/ninja-forms/assets/js/min/front-end-deps.js",
-						"http://plugins.local/ninja/wp-content/plugins/ninja-forms/assets/js/min/front-end.js",
-						"http://plugins.local/ninja/wp-includes/js/backbone.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/hooks.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/i18n.min.js",
 						"http://plugins.local/ninja/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js",
-						"http://plugins.local/ninja/wp-includes/js/jquery/jquery-migrate.min.js",
-						"http://plugins.local/ninja/wp-includes/js/jquery/jquery.min.js",
-						"http://plugins.local/ninja/wp-includes/js/underscore.min.js",
 						"http://plugins.local/ninja/wp-includes/js/wp-emoji-release.min.js"
 					],
 					"sessionStorage": [
 						"wpEmojiSettingsSupports"
 					],
 					"state": "reject-all",
-					"thirdPartyHosts": []
+					"thirdPartyHosts": [
+						"secure.gravatar.com"
+					]
 				}
 			],
 			"url": "http://plugins.local/ninja/"
