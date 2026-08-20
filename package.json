@@ -27,7 +27,8 @@
 		"LICENSE"
 	],
 	"bin": {
-		"kjeks-scan": "src/cli.js"
+		"kjeks-scan": "src/cli.js",
+		"kjeks-scanner": "src/cli.js"
 	},
 	"engines": {
 		"node": ">=20.0.0"

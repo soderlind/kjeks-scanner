@@ -49,6 +49,19 @@ npm ci
 npx playwright install --with-deps chromium
 ```
 
+### Or run without installing (npx)
+
+Once published to npm, run it directly — no clone required:
+
+```bash
+npx kjeks-scanner --config-url "https://network.example.com/wp-json/kjeks/v1/scan-config" --out scan
+```
+
+Use the package name with npx: `npx kjeks-scanner`. After a global or local
+install, both the `kjeks-scanner` and `kjeks-scan` commands are available.
+The first run downloads a pinned Chromium (~100+ MB) via Playwright; later runs
+reuse it.
+
 ## Run a scan
 
 ```bash
