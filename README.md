@@ -51,7 +51,7 @@ npx playwright install --with-deps chromium
 
 ### Or run without installing (npx)
 
-Once published to npm, run it directly — no clone required:
+Run it directly — no clone required:
 
 ```bash
 npx kjeks-scanner --config-url "https://network.example.com/wp-json/kjeks/v1/scan-config" --out scan
