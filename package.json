@@ -3,6 +3,17 @@
 	"version": "0.2.0",
 	"description": "Standalone Playwright discovery scanner for the Kjeks cookie-consent plugin. Runs separately from the WordPress runtime.",
 	"license": "GPL-2.0-or-later",
+	"author": "Per Søderlind",
+	"keywords": [
+		"kjeks",
+		"cookie-consent",
+		"playwright",
+		"tracker-scanner",
+		"cookie-scanner",
+		"gdpr",
+		"privacy",
+		"wordpress"
+	],
 	"homepage": "https://github.com/soderlind/kjeks-scanner",
 	"repository": {
 		"type": "git",
@@ -10,6 +21,10 @@
 	},
 	"private": true,
 	"type": "module",
+	"files": [
+		"src",
+		"README.md"
+	],
 	"bin": {
 		"kjeks-scan": "src/cli.js"
 	},
