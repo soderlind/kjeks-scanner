@@ -2,7 +2,7 @@
 	"name": "kjeks-scanner",
 	"version": "0.2.0",
 	"description": "Standalone Playwright discovery scanner for the Kjeks cookie-consent plugin. Runs separately from the WordPress runtime.",
-	"license": "GPL-2.0-or-later",
+	"license": "MIT",
 	"author": "Per Søderlind",
 	"keywords": [
 		"kjeks",
@@ -23,7 +23,8 @@
 	"type": "module",
 	"files": [
 		"src",
-		"README.md"
+		"README.md",
+		"LICENSE"
 	],
 	"bin": {
 		"kjeks-scan": "src/cli.js"
