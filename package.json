@@ -19,7 +19,7 @@
 		"type": "git",
 		"url": "https://github.com/soderlind/kjeks-scanner.git"
 	},
-	"private": true,
+	"private": false,
 	"type": "module",
 	"files": [
 		"src",
