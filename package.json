@@ -17,7 +17,7 @@
 	"homepage": "https://github.com/soderlind/kjeks-scanner",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/soderlind/kjeks-scanner.git"
+		"url": "git+https://github.com/soderlind/kjeks-scanner.git"
 	},
 	"private": false,
 	"type": "module",
