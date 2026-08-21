@@ -44,25 +44,43 @@ Design rationale is recorded under [docs/adr/](docs/adr): see
 
 ## Install
 
-```bash
-npm ci
-npx playwright install --with-deps chromium
-```
+Most people should **not** clone this repo. Pick the option that matches how
+often you'll run it. Every option downloads a pinned Chromium (~100+ MB) via
+Playwright on first run and reuses it afterwards.
 
-### Or run without installing (npx)
+### Run once, no install (recommended)
 
-Run it directly — no clone required:
+Best for CI and occasional scans — nothing to check out or keep up to date:
 
 ```bash
 npx kjeks-scanner --config-url "https://network.example.com/wp-json/kjeks/v1/scan-config" --out scan
 ```
 
-Use the package name with npx: `npx kjeks-scanner`. After a global or local
-install, both the `kjeks-scanner` and `kjeks-scan` commands are available.
-The first run downloads a pinned Chromium (~100+ MB) via Playwright; later runs
-reuse it.
+### Install globally (recommended for repeated local use)
+
+```bash
+npm install -g kjeks-scanner
+kjeks-scanner --config-url "https://network.example.com/wp-json/kjeks/v1/scan-config" --out scan
+```
+
+Both `kjeks-scanner` and `kjeks-scan` commands are available after install.
+
+### Clone (only to modify the scanner or contribute)
+
+Clone if you need to change the code, run the test suite, or send a PR:
+
+```bash
+git clone https://github.com/soderlind/kjeks-scanner.git
+cd kjeks-scanner
+npm ci
+npx playwright install --with-deps chromium
+node src/cli.js --config-url "https://network.example.com/wp-json/kjeks/v1/scan-config" --out scan
+```
 
 ## Run a scan
+
+The examples below use `node src/cli.js` (from a clone). If you installed via
+npx or globally, substitute `kjeks-scanner` for `node src/cli.js`.
 
 ```bash
 # From a config file (recommended for multisite):
@@ -171,11 +189,66 @@ BASE_URL=http://plugins.local/ npx playwright test   # end-to-end, needs a site
 The end-to-end suite confirms optional cookies, storage, and third-party requests
 do not occur before a consent choice, and that gated scripts stay inert.
 
-## Scheduled scanning
+## Run from GitHub Actions
 
-`.github/workflows/scan.yml` runs the scan weekly, uploads the full artifact,
-imports observations (if secrets are set), and commits baseline changes. Set
-`KJEKS_SITE_URL`, `KJEKS_USER`, and `KJEKS_APP_PASSWORD` as repository secrets.
+There are two ways to run the scanner in CI, depending on whether you want to
+track a baseline over time.
+
+### Easiest: drop-in workflow (no clone, no baseline)
+
+Copy this into `.github/workflows/kjeks-scan.yml` in **any repo you already
+own**. It uses `npx` (no checkout, no `npm ci`, no lockfile), scans, imports the
+observations, and uploads the results as a downloadable artifact:
+
+```yaml
+name: Kjeks discovery scan
+
+on:
+  schedule:
+    - cron: '0 3 * * 1' # Weekly, Monday 03:00 UTC
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npx playwright install --with-deps chromium
+      - env:
+          KJEKS_USER: ${{ secrets.KJEKS_USER }}
+          KJEKS_APP_PASSWORD: ${{ secrets.KJEKS_APP_PASSWORD }}
+        run: >-
+          npx kjeks-scanner
+          --config-url "${{ secrets.KJEKS_SITE_URL }}/wp-json/kjeks/v1/scan-config"
+          --import --out scan
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kjeks-scan
+          path: scan/
+```
+
+Then add three repository secrets (Settings → Secrets and variables → Actions):
+
+- `KJEKS_SITE_URL` — your network base URL, e.g. `https://network.example.com`
+- `KJEKS_USER` — a WordPress user with `manage_network`
+- `KJEKS_APP_PASSWORD` — that user's application password
+
+That's the whole setup. Drop `--import` (or leave `KJEKS_APP_PASSWORD` unset) to
+scan without importing. The `npx playwright install --with-deps` step pulls the
+Linux system libraries Chromium needs on the runner. Never commit the
+application password — it must live only in Actions secrets.
+
+### Optional upgrade: committed baseline for regression tracking
+
+If you want the scan to **diff against a committed baseline** and fail/flag when
+a subsite changes, use the included
+[`.github/workflows/scan.yml`](.github/workflows/scan.yml). It needs a real
+checkout (to read the previous `scan/<host>.json` and commit updates back), so
+fork or clone this repo — or copy `scan.yml` and the `scan/` folder into your
+own repo. Set the same three secrets; the workflow runs weekly and on demand,
+uploads the artifact, imports observations, and commits the updated baseline.
 
 ## Known limitations
 

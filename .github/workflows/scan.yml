@@ -32,11 +32,13 @@ jobs:
         env:
           KJEKS_USER: ${{ secrets.KJEKS_USER }}
           KJEKS_APP_PASSWORD: ${{ secrets.KJEKS_APP_PASSWORD }}
-        # Fetch the site list from WordPress over REST.
+        # Fetch the site list from WordPress over REST, then import in the same run.
+        # Import runs only when KJEKS_APP_PASSWORD is set (see --import handling).
         # Add `--overlay overlay.json` to merge repo-side paths/scenarios.
         run: >-
           node src/cli.js
           --config-url "${{ secrets.KJEKS_SITE_URL }}/wp-json/kjeks/v1/scan-config"
+          ${{ secrets.KJEKS_APP_PASSWORD != '' && '--import' || '' }}
           --out scan
 
       - name: Upload full scan artifact
@@ -44,13 +46,6 @@ jobs:
         with:
           name: kjeks-scan
           path: scan/
-
-      - name: Import observations (unreviewed)
-        if: ${{ env.KJEKS_APP_PASSWORD != '' }}
-        env:
-          KJEKS_USER: ${{ secrets.KJEKS_USER }}
-          KJEKS_APP_PASSWORD: ${{ secrets.KJEKS_APP_PASSWORD }}
-        run: node src/import.js --site "${{ secrets.KJEKS_SITE_URL }}" scan/*.json
 
       - name: Commit baseline changes
         run: |
