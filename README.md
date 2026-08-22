@@ -218,7 +218,13 @@ jobs:
         with:
           node-version: 20
       - run: npx playwright install --with-deps chromium
-      - env:
+      - name: Run discovery scan and import
+        id: scan
+        # The scanner exits non-zero when a subsite changed, a site errored, or
+        # observations were imported — the normal outcome of a successful run.
+        # continue-on-error keeps the job green and lets the upload below run.
+        continue-on-error: true
+        env:
           KJEKS_SCAN_KEY: ${{ secrets.KJEKS_SCAN_KEY }}
         run: >-
           npx kjeks-scanner
@@ -245,6 +251,16 @@ must live only in Actions secrets.
 > `Authorization` header (a common cause of `401 rest_not_logged_in`). Basic
 > auth with `KJEKS_USER` + `KJEKS_APP_PASSWORD` still works as a fallback where
 > the `Authorization` header reaches WordPress.
+
+> **Exit codes / `continue-on-error`.** The scanner exits **non-zero** when a
+> subsite changed, a site errored, or observations were imported — i.e. the
+> normal outcome of a successful run that found something. That is deliberate so
+> local/baseline runs can flag changes, but in a CI job it would fail the step
+> and skip the artifact upload. The workflow above sets `continue-on-error: true`
+> on the scan step so a successful scan-with-imports stays green; review the
+> imported observations in **Network Admin → Cookie Consent** instead of treating
+> the exit code as a build failure. (Omit `continue-on-error` if you *want* CI to
+> go red whenever the scan detects a change.)
 
 ### Optional upgrade: committed baseline for regression tracking
 
