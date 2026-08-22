@@ -90,7 +90,7 @@ node src/cli.js --config config.json --out scan
 node src/cli.js --url https://example.com --blog-id 1 --out scan
 
 # Fetch the site list from WordPress over REST (recommended for CI):
-KJEKS_USER=admin KJEKS_APP_PASSWORD='xxxx xxxx xxxx xxxx' \
+KJEKS_SCAN_KEY='<key from: wp kjeks scan-key --generate>' \
   node src/cli.js --config-url "https://network.example.com/wp-json/kjeks/v1/scan-config" --out scan
 
 # Against Cloudflare Browser Run instead of local Chromium (opt-in):
@@ -100,7 +100,7 @@ node src/cli.js --config config.json --endpoint "wss://…/browser-run/…"
 node src/cli.js --config-url "https://network.example.com/wp-json/kjeks/v1/scan-config" --concurrency 4 --out scan
 
 # Scan and import in one step:
-KJEKS_USER=admin KJEKS_APP_PASSWORD='xxxx xxxx xxxx xxxx' \
+KJEKS_SCAN_KEY='<key>' \
   node src/cli.js --config-url "https://network.example.com/wp-json/kjeks/v1/scan-config" --import --out scan
 ```
 
@@ -123,8 +123,9 @@ Three interchangeable sources:
 
 1. **Static file** — `--config config.json`.
 2. **REST** — `--config-url .../wp-json/kjeks/v1/scan-config` fetches the live
-   site list (auth: `KJEKS_USER` + `KJEKS_APP_PASSWORD`, caller needs
-   `manage_network`). Best for CI: no committed config, new subsites appear
+   site list (auth: `KJEKS_SCAN_KEY`, or `KJEKS_USER` + `KJEKS_APP_PASSWORD`;
+   the key path needs a key set via `wp kjeks scan-key`, the Basic-auth path
+   needs `manage_network`). Best for CI: no committed config, new subsites appear
    automatically. Add `--overlay overlay.json` to merge repo-side `paths` and
    `scenarios` by `blog_id` (see `overlay.example.json`).
 3. **WP-CLI** — generate a static file locally:
@@ -167,12 +168,13 @@ CI can flag it for review. Commit `scan/<host>.json` as the baseline.
 ## Import into WordPress
 
 ```bash
-KJEKS_USER=admin KJEKS_APP_PASSWORD='xxxx xxxx xxxx xxxx' \
+KJEKS_SCAN_KEY='<key>' \
   node src/import.js --site https://network.example.com scan/*.json
 ```
 
-Uses a WordPress application password (HTTP Basic) against
-`/wp-json/kjeks/v1/import`; the caller needs `manage_network`. Never commit the
+Authenticates with the shared scanner key in the `X-Kjeks-Key` header (or an
+application password via HTTP Basic as a fallback) against
+`/wp-json/kjeks/v1/import`; the Basic-auth path needs `manage_network`. Never commit the
 password — pass it via environment / CI secrets. Locally you can instead use
 `wp kjeks import <file>`.
 
@@ -217,8 +219,7 @@ jobs:
           node-version: 20
       - run: npx playwright install --with-deps chromium
       - env:
-          KJEKS_USER: ${{ secrets.KJEKS_USER }}
-          KJEKS_APP_PASSWORD: ${{ secrets.KJEKS_APP_PASSWORD }}
+          KJEKS_SCAN_KEY: ${{ secrets.KJEKS_SCAN_KEY }}
         run: >-
           npx kjeks-scanner
           --config-url "${{ secrets.KJEKS_SITE_URL }}/wp-json/kjeks/v1/scan-config"
@@ -229,16 +230,21 @@ jobs:
           path: scan/
 ```
 
-Then add three repository secrets (Settings → Secrets and variables → Actions):
+Then add two repository secrets (Settings → Secrets and variables → Actions):
 
 - `KJEKS_SITE_URL` — your network base URL, e.g. `https://network.example.com`
-- `KJEKS_USER` — a WordPress user with `manage_network`
-- `KJEKS_APP_PASSWORD` — that user's application password
+- `KJEKS_SCAN_KEY` — the shared scanner key from `wp kjeks scan-key --generate`
 
-That's the whole setup. Drop `--import` (or leave `KJEKS_APP_PASSWORD` unset) to
+That's the whole setup. Drop `--import` (or leave `KJEKS_SCAN_KEY` unset) to
 scan without importing. The `npx playwright install --with-deps` step pulls the
-Linux system libraries Chromium needs on the runner. Never commit the
-application password — it must live only in Actions secrets.
+Linux system libraries Chromium needs on the runner. Never commit the key — it
+must live only in Actions secrets.
+
+> **Why a key, not an application password?** The key is sent in the
+> `X-Kjeks-Key` header, which survives reverse proxies/CDNs that strip the
+> `Authorization` header (a common cause of `401 rest_not_logged_in`). Basic
+> auth with `KJEKS_USER` + `KJEKS_APP_PASSWORD` still works as a fallback where
+> the `Authorization` header reaches WordPress.
 
 ### Optional upgrade: committed baseline for regression tracking
 

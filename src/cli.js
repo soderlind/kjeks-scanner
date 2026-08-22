@@ -9,8 +9,8 @@
  *   node src/cli.js --config-url <url> --overlay overlay.json --out scan
  *   node src/cli.js --config config.json --endpoint wss://…browser-run…  (Browser Run)
  *
- * --config-url fetches the site list from WordPress (auth: KJEKS_USER +
- * KJEKS_APP_PASSWORD env). --overlay merges repo-side paths/scenarios by blog_id.
+ * --config-url fetches the site list from WordPress (auth: KJEKS_SCAN_KEY, or
+ * KJEKS_USER + KJEKS_APP_PASSWORD env). --overlay merges repo-side paths/scenarios by blog_id.
  *
  * Options:
  *   --concurrency <n>  Sites scanned in parallel (default 3).
@@ -31,7 +31,7 @@ import { join } from 'node:path';
 import { runScan } from './scan.js';
 import { diffScans } from './diff.js';
 import { priorTrackerPaths, mergePaths } from './targeting.js';
-import { importSites } from './import.js';
+import { importSites, scanAuthHeaders } from './import.js';
 
 async function main() {
 	const args = parseArgs( process.argv.slice( 2 ) );
@@ -188,19 +188,19 @@ async function loadConfig( args ) {
 /**
  * Fetches the scanner config from the WordPress REST endpoint.
  *
- * Authenticates with an application password via HTTP Basic auth, supplied
- * through KJEKS_USER / KJEKS_APP_PASSWORD in the environment.
+ * Prefers a shared scanner key (KJEKS_SCAN_KEY) sent in the X-Kjeks-Key header,
+ * falling back to an application password via HTTP Basic auth — both supplied
+ * through the environment.
  */
 async function fetchConfig( url ) {
-	const user = process.env.KJEKS_USER;
-	const password = process.env.KJEKS_APP_PASSWORD;
-	if ( ! user || ! password ) {
-		throw new Error( '--config-url requires KJEKS_USER and KJEKS_APP_PASSWORD in the environment.' );
+	const headers = scanAuthHeaders();
+	if ( ! headers ) {
+		throw new Error( '--config-url requires KJEKS_SCAN_KEY (or KJEKS_USER and KJEKS_APP_PASSWORD) in the environment.' );
 	}
-	const auth = 'Basic ' + Buffer.from( `${ user }:${ password }` ).toString( 'base64' );
-	const response = await fetch( url, { headers: { authorization: auth } } );
+	const response = await fetch( url, { headers } );
 	if ( ! response.ok ) {
-		throw new Error( `config-url returned ${ response.status }` );
+		const body = await response.text().catch( () => '' );
+		throw new Error( `config-url returned ${ response.status }${ body ? `: ${ body.slice( 0, 300 ) }` : '' }` );
 	}
 	return response.json();
 }

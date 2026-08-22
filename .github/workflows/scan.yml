@@ -30,15 +30,19 @@ jobs:
         # Non-zero exit means a subsite changed; keep going so we can commit + import.
         continue-on-error: true
         env:
+          # Preferred: a shared key from `wp kjeks scan-key --generate`, sent in
+          # the X-Kjeks-Key header (survives proxies that strip Authorization).
+          KJEKS_SCAN_KEY: ${{ secrets.KJEKS_SCAN_KEY }}
+          # Fallback: a WordPress application password via HTTP Basic auth.
           KJEKS_USER: ${{ secrets.KJEKS_USER }}
           KJEKS_APP_PASSWORD: ${{ secrets.KJEKS_APP_PASSWORD }}
         # Fetch the site list from WordPress over REST, then import in the same run.
-        # Import runs only when KJEKS_APP_PASSWORD is set (see --import handling).
+        # Import runs when either KJEKS_SCAN_KEY or KJEKS_APP_PASSWORD is set.
         # Add `--overlay overlay.json` to merge repo-side paths/scenarios.
         run: >-
           node src/cli.js
           --config-url "${{ secrets.KJEKS_SITE_URL }}/wp-json/kjeks/v1/scan-config"
-          ${{ secrets.KJEKS_APP_PASSWORD != '' && '--import' || '' }}
+          ${{ ( secrets.KJEKS_SCAN_KEY != '' || secrets.KJEKS_APP_PASSWORD != '' ) && '--import' || '' }}
           --out scan
 
       - name: Upload full scan artifact

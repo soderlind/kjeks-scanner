@@ -3,17 +3,43 @@
  * Posts scan results to the Kjeks REST import endpoint.
  *
  * Reads one or more scan JSON files and imports each site's observations as
- * UNREVIEWED. Authentication uses a WordPress application password via HTTP
- * Basic auth — supply it through the environment, never on the command line or
- * in the repo.
+ * UNREVIEWED. Authentication prefers a shared scanner key (KJEKS_SCAN_KEY) sent
+ * in the X-Kjeks-Key header — which survives proxies that strip the
+ * Authorization header — and falls back to a WordPress application password via
+ * HTTP Basic auth. Supply credentials through the environment, never on the
+ * command line or in the repo.
  *
  * Usage:
+ *   KJEKS_SCAN_KEY='<key>' \
+ *     node src/import.js --site https://network.example.com scan/*.json
  *   KJEKS_USER=admin KJEKS_APP_PASSWORD='xxxx xxxx xxxx' \
  *     node src/import.js --site https://network.example.com scan/*.json
  */
 
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+
+/**
+ * Builds auth headers for the Kjeks REST endpoints.
+ *
+ * Prefers a shared scanner key (KJEKS_SCAN_KEY) sent in the X-Kjeks-Key header,
+ * which survives proxies that strip Authorization. Falls back to a WordPress
+ * application password via HTTP Basic auth. Returns null when neither is set.
+ *
+ * @returns {Record<string, string>|null}
+ */
+export function scanAuthHeaders() {
+	const key = process.env.KJEKS_SCAN_KEY;
+	if ( key ) {
+		return { 'x-kjeks-key': key };
+	}
+	const user = process.env.KJEKS_USER;
+	const password = process.env.KJEKS_APP_PASSWORD;
+	if ( user && password ) {
+		return { authorization: 'Basic ' + Buffer.from( `${ user }:${ password }` ).toString( 'base64' ) };
+	}
+	return null;
+}
 
 export function basicAuthFromEnv() {
 	const user = process.env.KJEKS_USER;
@@ -30,12 +56,17 @@ export function basicAuthFromEnv() {
  * @param {string} base   Network base URL.
  * @param {object[]} sites  Sites with { blog_id, observations }.
  * @param {object} [opts]
- * @param {string} [opts.auth]  Authorization header value (default: env basic auth).
+ * @param {Record<string, string>} [opts.headers]  Auth headers (default: env key/basic auth).
+ * @param {string} [opts.auth]  Legacy Authorization header value.
  * @param {(message: string, level?: string) => void} [opts.log]
  * @returns {Promise<{ imported: number, failures: number }>}
  */
 export async function importSites( base, sites, opts = {} ) {
-	const auth = opts.auth || basicAuthFromEnv();
+	const authHeaders = opts.headers
+		|| ( opts.auth ? { authorization: opts.auth } : scanAuthHeaders() );
+	if ( ! authHeaders ) {
+		throw new Error( 'Set KJEKS_SCAN_KEY (or KJEKS_USER and KJEKS_APP_PASSWORD) in the environment.' );
+	}
 	const log = opts.log || ( () => {} );
 	const endpoint = new URL( '/wp-json/kjeks/v1/import', base ).toString();
 
@@ -44,7 +75,7 @@ export async function importSites( base, sites, opts = {} ) {
 	for ( const site of sites || [] ) {
 		const response = await fetch( endpoint, {
 			method: 'POST',
-			headers: { 'content-type': 'application/json', authorization: auth },
+			headers: { 'content-type': 'application/json', ...authHeaders },
 			body: JSON.stringify( { blog_id: site.blog_id, observations: site.observations } ),
 		} );
 		const body = await response.json().catch( () => ( {} ) );
