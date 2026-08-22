@@ -1,5 +1,7 @@
 # Kjeks discovery scanner
 
+> “Kjeks” is Norwegian for biscuit — a friendlier kind of cookie.
+
 A standalone Playwright scanner that discovers cookies and similar technologies
 across a WordPress Multisite, in each consent state. It runs **separately from
 the WordPress runtime** — nothing here is loaded by the plugin.
