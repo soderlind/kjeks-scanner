@@ -27,11 +27,17 @@ export async function runScan( config, options = {} ) {
 	const concurrency = Math.max( 1, Number( options.concurrency ) || 3 );
 	const perHost = Math.max( 1, Number( options.perHost ) || 2 );
 
+	// Send the scanner key on every browser request so sites behind Restricted
+	// Site Access (or similar) let the scan through while staying closed to the public.
+	const extraHTTPHeaders = process.env.KJEKS_SCAN_KEY
+		? { 'X-Kjeks-Key': process.env.KJEKS_SCAN_KEY }
+		: undefined;
+
 	try {
 		const results = await mapWithLimit(
 			config.sites || [],
 			{ concurrency, perHost, hostOf: siteHost },
-			( site ) => scanSite( browser, site, config )
+			( site ) => scanSite( browser, site, config, { extraHTTPHeaders } )
 		);
 
 		const sites = [];
@@ -119,7 +125,7 @@ export function mapWithLimit( items, { concurrency, perHost, hostOf }, worker ) 
 	} );
 }
 
-async function scanSite( browser, site, config ) {
+async function scanSite( browser, site, config, opts = {} ) {
 	const baseUrl = site.url;
 	const host = new URL( baseUrl ).hostname;
 	const firstPartyDomain = registrableDomain( host );
@@ -130,7 +136,9 @@ async function scanSite( browser, site, config ) {
 	const states = [];
 	const sourcesByState = [];
 	for ( const state of consentStates() ) {
-		const context = await browser.newContext();
+		const context = await browser.newContext(
+			opts.extraHTTPHeaders ? { extraHTTPHeaders: opts.extraHTTPHeaders } : {}
+		);
 
 		if ( state.choices !== null ) {
 			const record = encodeRecord( state.choices, policyVersion, blogId, 0 );

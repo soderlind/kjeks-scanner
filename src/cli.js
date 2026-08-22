@@ -202,6 +202,13 @@ async function fetchConfig( url ) {
 		const body = await response.text().catch( () => '' );
 		throw new Error( `config-url returned ${ response.status }${ body ? `: ${ body.slice( 0, 300 ) }` : '' }` );
 	}
+	const contentType = response.headers.get( 'content-type' ) || '';
+	if ( ! contentType.includes( 'json' ) ) {
+		throw new Error(
+			`config-url did not return JSON (content-type: ${ contentType || 'unknown' }, final URL: ${ response.url }). ` +
+				'The endpoint is likely behind a login or access-restriction gate — set KJEKS_SCAN_KEY and ensure the site trusts it.'
+		);
+	}
 	return response.json();
 }
 
