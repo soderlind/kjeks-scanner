@@ -19,15 +19,20 @@
  *                      that previously produced a tracker.
  *   --import [<url>]   After scanning, POST observations to the Kjeks import
  *                      endpoint (base from the value, --site, or --config-url).
+ *   --no-fail-on-change  Exit 0 (not 3) when the only difference is a changed
+ *                      subsite, so CI fails only on real errors.
  *
  * Writes one deterministic JSON file per site to <out>/<host>[_<path>].json and prints a
- * per-subsite diff against any previous file of the same name. Exits non-zero when a
- * subsite changed, a site errored, or an import failed.
+ * per-subsite diff against any previous file of the same name.
+ *
+ * Exit codes: 0 = clean; 1 = a site errored or an import failed; 3 = a subsite
+ * changed but nothing errored (review needed); 2 = a fatal/config error.
  */
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { runScan } from './scan.js';
 import { diffScans } from './diff.js';
 import { priorTrackerPaths, mergePaths } from './targeting.js';
@@ -88,8 +93,31 @@ async function main() {
 		importFailures = outcome.failures;
 	}
 
-	// Non-zero exit if any subsite changed, any site errored, or an import failed.
-	process.exitCode = ( anyChanged || scanErrors.length > 0 || importFailures > 0 ) ? 1 : 0;
+	// Exit-code contract: 1 = a site errored or an import failed (a real
+	// failure); 3 = a subsite changed but nothing errored (review needed);
+	// 0 = clean. Errors take precedence over changes. --no-fail-on-change
+	// downgrades the changes-only case to 0 so CI fails only on real errors.
+	process.exitCode = exitCodeFor( {
+		errored: scanErrors.length > 0 || importFailures > 0,
+		changed: anyChanged,
+		noFailOnChange: Boolean( args[ 'no-fail-on-change' ] ),
+	} );
+}
+
+/**
+ * Resolves the process exit code. Errors outrank changes.
+ *
+ * @param {{ errored: boolean, changed: boolean, noFailOnChange: boolean }} state
+ * @returns {0|1|3} 1 = errored, 3 = changed-only, 0 = clean (or change suppressed).
+ */
+export function exitCodeFor( { errored, changed, noFailOnChange } ) {
+	if ( errored ) {
+		return 1;
+	}
+	if ( changed ) {
+		return noFailOnChange ? 0 : 3;
+	}
+	return 0;
 }
 
 function originOf( url ) {
@@ -279,7 +307,11 @@ function sortKeys( value ) {
 	return value;
 }
 
-main().catch( ( error ) => {
-	process.stderr.write( `kjeks-scan: ${ error.message }\n` );
-	process.exitCode = 2;
-} );
+// Run only as the CLI entrypoint; importing this module (e.g. for tests)
+// must not kick off a scan.
+if ( process.argv[ 1 ] && fileURLToPath( import.meta.url ) === process.argv[ 1 ] ) {
+	main().catch( ( error ) => {
+		process.stderr.write( `kjeks-scan: ${ error.message }\n` );
+		process.exitCode = 2;
+	} );
+}

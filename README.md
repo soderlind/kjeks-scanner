@@ -222,16 +222,15 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Run discovery scan and import
         id: scan
-        # The scanner exits non-zero when a subsite changed, a site errored, or
-        # observations were imported — the normal outcome of a successful run.
-        # continue-on-error keeps the job green and lets the upload below run.
-        continue-on-error: true
+        # The scanner exits 3 when a subsite changed (review needed) and 1 when
+        # a site errored or an import failed. --no-fail-on-change turns the
+        # changed-only case into exit 0, so the step fails only on real errors.
         env:
           KJEKS_SCAN_KEY: ${{ secrets.KJEKS_SCAN_KEY }}
         run: >-
           npx kjeks-scanner
           --config-url "${{ secrets.KJEKS_SITE_URL }}/wp-json/kjeks/v1/scan-config"
-          --import --out scan
+          --import --no-fail-on-change --out scan
       - uses: actions/upload-artifact@v4
         with:
           name: kjeks-scan
@@ -254,15 +253,22 @@ must live only in Actions secrets.
 > auth with `KJEKS_USER` + `KJEKS_APP_PASSWORD` still works as a fallback where
 > the `Authorization` header reaches WordPress.
 
-**Exit codes / `continue-on-error`.** The scanner exits **non-zero** when a
-subsite changed, a site errored, or observations were imported — i.e. the
-normal outcome of a successful run that found something. That is deliberate so
-local/baseline runs can flag changes, but in a CI job it would fail the step
-and skip the artifact upload. The workflow above sets `continue-on-error: true`
-on the scan step so a successful scan-with-imports stays green; review the
-imported observations in **Network Admin → Cookie Consent** instead of treating
-the exit code as a build failure. (Omit `continue-on-error` if you *want* CI to
-go red whenever the scan detects a change.)
+**Exit codes.** The scanner uses distinct codes so CI can tell a real failure
+from a mere change:
+
+| Code | Meaning                                                       |
+| ---- | ------------------------------------------------------------- |
+| `0`  | Clean — no changes, no errors.                                |
+| `1`  | A site errored during the scan, or an import failed.          |
+| `2`  | Fatal error (bad config, missing auth, unhandled exception).  |
+| `3`  | A subsite changed but nothing errored — review needed.        |
+
+By default a detected change exits `3`, which fails a CI step. Pass
+`--no-fail-on-change` to downgrade the changes-only case to `0` so the step
+fails **only** on real errors (`1`/`2`) — no `continue-on-error` needed. Review
+imported observations in **Network Admin → Cookie Consent**. (Alternatively keep
+`continue-on-error: true` if you want the step to stay green regardless and
+inspect `steps.scan.outcome` yourself.)
 
 ### Optional upgrade: committed baseline for regression tracking
 
