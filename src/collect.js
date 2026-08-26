@@ -30,6 +30,74 @@ function isBeacon( request ) {
 	return /\.(gif|png)(\?|$)/i.test( url ) && /(pixel|track|beacon|collect|pageview)/i.test( url );
 }
 
+// Resource types that hold a connection open indefinitely; excluding them lets
+// the settle detector fire instead of waiting for a stream that never ends.
+const LONG_LIVED = new Set( [ 'websocket', 'eventsource' ] );
+
+/**
+ * Resolves when the page's network has genuinely drained, not after a fixed
+ * delay: it tracks in-flight requests and returns once none are pending for
+ * `quietMs`. Long-lived connections (websocket/eventsource) are ignored so a
+ * persistent stream can't stall the scan. `timeout` is only a safety cap for
+ * pathological pages (e.g. XHR long-polling) that never go quiet.
+ *
+ * @param {import('playwright').Page} page
+ * @param {object} [options]
+ * @param {number} [options.quietMs]  Idle window that counts as settled (default 500).
+ * @param {number} [options.timeout]  Hard cap in ms (default 15000).
+ */
+function waitForNetworkSettled( page, { quietMs = 500, timeout = 15000 } = {} ) {
+	return new Promise( ( resolve ) => {
+		let inflight = 0;
+		let done = false;
+		let quietTimer = null;
+
+		const finish = () => {
+			if ( done ) {
+				return;
+			}
+			done = true;
+			clearTimeout( quietTimer );
+			clearTimeout( hardCap );
+			page.off( 'request', onRequest );
+			page.off( 'requestfinished', onSettle );
+			page.off( 'requestfailed', onSettle );
+			resolve();
+		};
+
+		const scheduleQuiet = () => {
+			clearTimeout( quietTimer );
+			if ( inflight === 0 ) {
+				quietTimer = setTimeout( finish, quietMs );
+			}
+		};
+
+		const onRequest = ( request ) => {
+			if ( LONG_LIVED.has( request.resourceType() ) ) {
+				return;
+			}
+			inflight++;
+			clearTimeout( quietTimer );
+		};
+
+		const onSettle = ( request ) => {
+			if ( LONG_LIVED.has( request.resourceType() ) ) {
+				return;
+			}
+			inflight = Math.max( 0, inflight - 1 );
+			scheduleQuiet();
+		};
+
+		const hardCap = setTimeout( finish, timeout );
+		page.on( 'request', onRequest );
+		page.on( 'requestfinished', onSettle );
+		page.on( 'requestfailed', onSettle );
+
+		// The page may already be idle after navigation resolved.
+		scheduleQuiet();
+	} );
+}
+
 /**
  * Collects observations for a single already-configured page.
  *
@@ -94,7 +162,10 @@ export async function collect( page, context, { firstPartyDomain, paths, baseUrl
 		const target = path.startsWith( 'http' )
 			? path
 			: new URL( String( path ).replace( /^\/+/, '' ), base ).toString();
-		await page.goto( target, { waitUntil: 'networkidle', timeout: 30000 } ).catch( () => {} );
+		await page.goto( target, { waitUntil: 'domcontentloaded', timeout: 30000 } ).catch( () => {} );
+		// Continue the instant real loading finishes instead of waiting out a
+		// fixed delay; the cap only guards pages that never go quiet.
+		await waitForNetworkSettled( page, { quietMs: 500, timeout: 15000 } );
 
 		// Snapshot after each path; the delta attributes new items to this path.
 		lastCookies = await context.cookies();
