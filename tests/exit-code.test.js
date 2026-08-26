@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { exitCodeFor } from '../src/cli.js';
+import { exitCodeFor } from '../src/exit-code.js';
 
 test( 'clean run exits 0', () => {
 	assert.equal( exitCodeFor( { errored: false, changed: false, noFailOnChange: false } ), 0 );

@@ -32,10 +32,10 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { runScan } from './scan.js';
 import { diffScans } from './diff.js';
 import { priorTrackerPaths, mergePaths } from './targeting.js';
+import { exitCodeFor } from './exit-code.js';
 import { importSites, scanAuthHeaders } from './import.js';
 
 async function main() {
@@ -102,22 +102,6 @@ async function main() {
 		changed: anyChanged,
 		noFailOnChange: Boolean( args[ 'no-fail-on-change' ] ),
 	} );
-}
-
-/**
- * Resolves the process exit code. Errors outrank changes.
- *
- * @param {{ errored: boolean, changed: boolean, noFailOnChange: boolean }} state
- * @returns {0|1|3} 1 = errored, 3 = changed-only, 0 = clean (or change suppressed).
- */
-export function exitCodeFor( { errored, changed, noFailOnChange } ) {
-	if ( errored ) {
-		return 1;
-	}
-	if ( changed ) {
-		return noFailOnChange ? 0 : 3;
-	}
-	return 0;
 }
 
 function originOf( url ) {
@@ -307,11 +291,7 @@ function sortKeys( value ) {
 	return value;
 }
 
-// Run only as the CLI entrypoint; importing this module (e.g. for tests)
-// must not kick off a scan.
-if ( process.argv[ 1 ] && fileURLToPath( import.meta.url ) === process.argv[ 1 ] ) {
-	main().catch( ( error ) => {
-		process.stderr.write( `kjeks-scan: ${ error.message }\n` );
-		process.exitCode = 2;
-	} );
-}
+main().catch( ( error ) => {
+	process.stderr.write( `kjeks-scan: ${ error.message }\n` );
+	process.exitCode = 2;
+} );
