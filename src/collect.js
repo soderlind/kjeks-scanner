@@ -99,6 +99,35 @@ function waitForNetworkSettled( page, { quietMs = 500, timeout = 15000 } = {} ) 
 }
 
 /**
+ * Races a promise against a timeout, resolving to `fallback` if it doesn't
+ * settle in time (or rejects). Lets the scan abandon a page read that hangs
+ * because the target blocked its main thread, instead of stalling forever.
+ *
+ * @template T
+ * @param {Promise<T>} promise
+ * @param {number} ms
+ * @param {T} fallback
+ * @returns {Promise<T>}
+ */
+function withTimeout( promise, ms, fallback ) {
+	let timer;
+	const guard = new Promise( ( resolve ) => {
+		timer = setTimeout( () => resolve( fallback ), ms );
+	} );
+	const settled = Promise.resolve( promise ).then(
+		( value ) => {
+			clearTimeout( timer );
+			return value;
+		},
+		() => {
+			clearTimeout( timer );
+			return fallback;
+		}
+	);
+	return Promise.race( [ settled, guard ] );
+}
+
+/**
  * Collects observations for a single already-configured page.
  *
  * @param {import('playwright').Page} page
@@ -168,8 +197,10 @@ export async function collect( page, context, { firstPartyDomain, paths, baseUrl
 		await waitForNetworkSettled( page, { quietMs: 500, timeout: 15000 } );
 
 		// Snapshot after each path; the delta attributes new items to this path.
-		lastCookies = await context.cookies();
-		lastStorage = await page.evaluate( readStorage );
+		// Both reads are capped: a page that blocks its main thread can hang
+		// evaluate()/cookies() indefinitely, so fall back to the prior snapshot.
+		lastCookies = await withTimeout( context.cookies(), 15000, lastCookies );
+		lastStorage = await withTimeout( page.evaluate( readStorage ), 15000, lastStorage );
 
 		for ( const c of lastCookies ) {
 			const key = `${ c.name }|${ c.domain }`;

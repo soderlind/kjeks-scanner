@@ -73,11 +73,22 @@ export async function importSites( base, sites, opts = {} ) {
 	let imported = 0;
 	let failures = 0;
 	for ( const site of sites || [] ) {
-		const response = await fetch( endpoint, {
-			method: 'POST',
-			headers: { 'content-type': 'application/json', ...authHeaders },
-			body: JSON.stringify( { blog_id: site.blog_id, observations: site.observations } ),
-		} );
+		let response;
+		try {
+			response = await fetch( endpoint, {
+				method: 'POST',
+				headers: { 'content-type': 'application/json', ...authHeaders },
+				body: JSON.stringify( { blog_id: site.blog_id, observations: site.observations } ),
+				signal: AbortSignal.timeout( 30000 ),
+			} );
+		} catch ( error ) {
+			const reason = error && error.name === 'TimeoutError'
+				? 'request timed out after 30s'
+				: String( ( error && error.message ) || error );
+			log( `Import failed for blog ${ site.blog_id }: ${ reason }`, 'error' );
+			failures++;
+			continue;
+		}
 		const body = await response.json().catch( () => ( {} ) );
 		if ( ! response.ok ) {
 			log( `Import failed for blog ${ site.blog_id }: ${ response.status } ${ JSON.stringify( body ) }`, 'error' );

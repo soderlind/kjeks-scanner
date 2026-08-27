@@ -209,7 +209,15 @@ async function fetchConfig( url ) {
 	if ( ! headers ) {
 		throw new Error( '--config-url requires KJEKS_SCAN_KEY (or KJEKS_USER and KJEKS_APP_PASSWORD) in the environment.' );
 	}
-	const response = await fetch( url, { headers } );
+	const response = await fetch( url, { headers, signal: AbortSignal.timeout( 30000 ) } ).catch( ( error ) => {
+		if ( error && error.name === 'TimeoutError' ) {
+			throw new Error(
+				`config-url timed out after 30s (${ url }). The endpoint accepted the request but never responded — ` +
+					'check the site is reachable and not hanging behind a proxy.'
+			);
+		}
+		throw error;
+	} );
 	if ( ! response.ok ) {
 		const body = await response.text().catch( () => '' );
 		throw new Error( `config-url returned ${ response.status }${ body ? `: ${ body.slice( 0, 300 ) }` : '' }` );
