@@ -12,9 +12,9 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    # Backstop: the scanner bounds every network await, but cap the whole job
-    # so a runaway can never burn the 6h ceiling.
-    timeout-minutes: 30
+    # A clean run takes ~2h; cap the job below the 6h ceiling so a hang can't
+    # burn a full runner-day.
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v7.0.1
 
